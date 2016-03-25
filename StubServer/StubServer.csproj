@@ -37,12 +37,13 @@
     <Reference Include="System.Web.Http.SelfHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HttpMockServer.cs" />
-    <Compile Include="IHttpMockServer.cs" />
+    <Compile Include="Http\HttpStubServer.cs" />
+    <Compile Include="Http\IHttpStubServer.cs" />
+    <Compile Include="IStubServer.cs" />
     <Compile Include="ISetup.cs" />
-    <Compile Include="MockHttpMessageHandler.cs" />
+    <Compile Include="Http\StubHttpMessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Setup.cs" />
+    <Compile Include="Http\HttpSetup.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

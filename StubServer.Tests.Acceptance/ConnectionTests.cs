@@ -2,13 +2,14 @@
 using System.Net;
 using System.Net.Http;
 using NUnit.Framework;
+using StubServer.Http;
 
 namespace StubServer.Tests.Acceptance
 {
     internal class ConnectionTests
     {
         private HttpClient _httpClient;
-        private IHttpMockServer _httpMockServer;
+        private IHttpStubServer _httpStubServer;
         private HttpRequestMessage _httpRequestMessage;
         private HttpResponseMessage _httpResponseMessage;
 
@@ -17,7 +18,7 @@ namespace StubServer.Tests.Acceptance
         {
             var baseAddress = new Uri("http://localhost:5050");
 
-            _httpMockServer = new HttpMockServer(baseAddress);
+            _httpStubServer = new HttpStubServer(baseAddress);
 
             _httpClient = new HttpClient
             {
@@ -28,7 +29,7 @@ namespace StubServer.Tests.Acceptance
         [Test]
         public void Should_get_OK_response()
         {
-            _httpMockServer
+            _httpStubServer
                 .Setup(message => message.Method == HttpMethod.Get &&
                                   message.RequestUri.PathAndQuery.Equals("/"))
                 .Returns(() => new HttpResponseMessage(HttpStatusCode.OK));
@@ -43,7 +44,7 @@ namespace StubServer.Tests.Acceptance
         [Test]
         public void Should_get_Bad_Request_response()
         {
-            _httpMockServer
+            _httpStubServer
                 .Setup(message => message.Method == HttpMethod.Get &&
                                   message.RequestUri.PathAndQuery.Equals("/badrequest"))
                 .Returns(() => new HttpResponseMessage(HttpStatusCode.BadRequest));
@@ -58,7 +59,7 @@ namespace StubServer.Tests.Acceptance
         [Test]
         public void Should_get_Not_Modified_response()
         {
-            _httpMockServer
+            _httpStubServer
                 .Setup(message => message.Method == HttpMethod.Post)
                 .Returns(() => new HttpResponseMessage(HttpStatusCode.NotModified));
 
@@ -75,7 +76,7 @@ namespace StubServer.Tests.Acceptance
             _httpRequestMessage.Dispose();
             _httpResponseMessage.Dispose();
             _httpClient.Dispose();
-            _httpMockServer.Dispose();
+            _httpStubServer.Dispose();
         }
     }
 }

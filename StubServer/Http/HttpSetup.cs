@@ -2,14 +2,14 @@ using System;
 using System.Linq.Expressions;
 using System.Net.Http;
 
-namespace StubServer
+namespace StubServer.Http
 {
-    public class Setup : ISetup
+    public class HttpSetup : ISetup<HttpResponseMessage>
     {
-        private Func<HttpResponseMessage> _response;
         private readonly Func<HttpRequestMessage, bool> _expression;
+        private Func<HttpResponseMessage> _response;
 
-        public Setup(Expression<Func<HttpRequestMessage, bool>> expression)
+        public HttpSetup(Expression<Func<HttpRequestMessage, bool>> expression)
         {
             _expression = expression.Compile();
         }

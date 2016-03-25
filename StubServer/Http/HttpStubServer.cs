@@ -3,30 +3,30 @@ using System.Linq.Expressions;
 using System.Net.Http;
 using System.Web.Http.SelfHost;
 
-namespace StubServer
+namespace StubServer.Http
 {
-    public class HttpMockServer : IHttpMockServer
+    public class HttpStubServer : IHttpStubServer
     {
         private HttpSelfHostServer _httpSelfHostServer;
-        private MockHttpMessageHandler _mockHttpMessageHandler;
+        private StubHttpMessageHandler _stubHttpMessageHandler;
 
-        public HttpMockServer(Uri baseAddress)
+        public HttpStubServer(Uri baseAddress)
         {
             _httpSelfHostServer = new HttpSelfHostServer(new HttpSelfHostConfiguration(baseAddress),
-                _mockHttpMessageHandler = new MockHttpMessageHandler());
+                _stubHttpMessageHandler = new StubHttpMessageHandler());
 
             _httpSelfHostServer.OpenAsync();
+        }
+
+        public ISetup<HttpResponseMessage> Setup(Expression<Func<HttpRequestMessage, bool>> expression)
+        {
+            return _stubHttpMessageHandler.AddSetup(expression);
         }
 
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        public ISetup Setup(Expression<Func<HttpRequestMessage, bool>> expression)
-        {
-            return _mockHttpMessageHandler.AddSetup(expression);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -39,10 +39,10 @@ namespace StubServer
                     _httpSelfHostServer = null;
                 }
 
-                if (_mockHttpMessageHandler != null)
+                if (_stubHttpMessageHandler != null)
                 {
-                    _mockHttpMessageHandler.Dispose();
-                    _mockHttpMessageHandler = null;
+                    _stubHttpMessageHandler.Dispose();
+                    _stubHttpMessageHandler = null;
                 }
             }
         }

@@ -1,10 +1,9 @@
 using System;
-using System.Net.Http;
 
 namespace StubServer
 {
-    public interface ISetup
+    public interface ISetup<in TResponse>
     {
-        void Returns(Func<HttpResponseMessage> response);
+        void Returns(Func<TResponse> response);
     }
 }
