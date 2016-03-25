@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace StubServer
 {
-    public interface IStubServer<TRequest, in TResponse> : IDisposable
+    public interface IStubServer<TRequest, TResponse> : IDisposable
     {
         ISetup<TResponse> Setup(Expression<Func<TRequest, bool>> expression);
     }

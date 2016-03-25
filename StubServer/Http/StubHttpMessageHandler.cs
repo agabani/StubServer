@@ -13,18 +13,19 @@ namespace StubServer.Http
     {
         private readonly List<HttpSetup> _setups = new List<HttpSetup>();
 
-        protected override Task<HttpResponseMessage> SendAsync(
-            HttpRequestMessage request,
-            CancellationToken cancellationToken)
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            foreach (var httpResponseMessage in _setups
-                .Select(setup => setup.Result(request))
-                .Where(httpResponseMessage => httpResponseMessage != null))
+            foreach (var setup in _setups)
             {
-                return Task.FromResult(httpResponseMessage);
+                var httpResponseMessage = await setup.Result(request);
+
+                if (httpResponseMessage != null)
+                {
+                    return httpResponseMessage;
+                }
             }
 
-            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.NotFound));
+            return new HttpResponseMessage(HttpStatusCode.NotFound);
         }
 
         internal ISetup<HttpResponseMessage> AddSetup(Expression<Func<HttpRequestMessage, bool>> expression)

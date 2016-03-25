@@ -14,9 +14,9 @@ namespace StubServer.Tests.Acceptance.Http
         {
             HttpStubServer
                 .Setup(message => true)
-                .Returns(() =>
+                .Returns(async () =>
                 {
-                    Task.Delay(TimeSpan.FromMilliseconds(500)).Wait();
+                    await Task.Delay(TimeSpan.FromMilliseconds(500));
                     return new HttpResponseMessage(HttpStatusCode.OK);
                 });
 
@@ -37,9 +37,9 @@ namespace StubServer.Tests.Acceptance.Http
         {
             HttpStubServer
                 .Setup(message => true)
-                .Returns(() =>
+                .Returns(async () =>
                 {
-                    Task.Delay(TimeSpan.FromSeconds(2)).Wait();
+                    await Task.Delay(TimeSpan.FromSeconds(2));
                     return new HttpResponseMessage(HttpStatusCode.OK);
                 });
 
