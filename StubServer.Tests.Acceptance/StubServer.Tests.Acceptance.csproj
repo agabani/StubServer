@@ -43,6 +43,7 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Http\HttpStubServerTests.cs" />
     <Compile Include="Http\StatusCodeTests.cs" />
     <Compile Include="Http\MethodTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

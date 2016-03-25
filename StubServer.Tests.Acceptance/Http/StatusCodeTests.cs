@@ -2,30 +2,11 @@
 using System.Net;
 using System.Net.Http;
 using NUnit.Framework;
-using StubServer.Http;
 
 namespace StubServer.Tests.Acceptance.Http
 {
-    internal class StatusCodeTests
+    internal class StatusCodeTests : HttpStubServerTests
     {
-        private HttpClient _httpClient;
-        private HttpRequestMessage _httpRequestMessage;
-        private HttpResponseMessage _httpResponseMessage;
-        private IHttpStubServer _httpStubServer;
-
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
-        {
-            var baseAddress = new Uri("http://localhost:5051");
-
-            _httpStubServer = new HttpStubServer(baseAddress);
-
-            _httpClient = new HttpClient
-            {
-                BaseAddress = baseAddress
-            };
-        }
-
         [Test]
         [TestCase(HttpStatusCode.OK)]
         [TestCase(HttpStatusCode.NotModified)]
@@ -35,27 +16,16 @@ namespace StubServer.Tests.Acceptance.Http
         {
             var path = Guid.NewGuid().ToString();
 
-            _httpStubServer
+            HttpStubServer
                 .Setup(message => message.Method == HttpMethod.Get &&
                                   message.RequestUri.PathAndQuery.Equals("/" + path))
                 .Returns(() => new HttpResponseMessage(httpStatusCode));
 
-            _httpResponseMessage = _httpClient
-                .SendAsync(_httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/" + path))
+            HttpResponseMessage = HttpClient
+                .SendAsync(HttpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/" + path))
                 .GetAwaiter().GetResult();
 
-            Assert.That(_httpResponseMessage.StatusCode, Is.EqualTo(httpStatusCode));
-
-
-        }
-
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
-            _httpRequestMessage.Dispose();
-            _httpResponseMessage.Dispose();
-            _httpClient.Dispose();
-            _httpStubServer.Dispose();
+            Assert.That(HttpResponseMessage.StatusCode, Is.EqualTo(httpStatusCode));
         }
     }
 }

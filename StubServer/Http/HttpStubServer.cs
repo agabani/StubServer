@@ -15,7 +15,7 @@ namespace StubServer.Http
             _httpSelfHostServer = new HttpSelfHostServer(new HttpSelfHostConfiguration(baseAddress),
                 _stubHttpMessageHandler = new StubHttpMessageHandler());
 
-            _httpSelfHostServer.OpenAsync();
+            _httpSelfHostServer.OpenAsync().Wait();
         }
 
         public ISetup<HttpResponseMessage> Setup(Expression<Func<HttpRequestMessage, bool>> expression)
@@ -35,6 +35,7 @@ namespace StubServer.Http
             {
                 if (_httpSelfHostServer != null)
                 {
+                    _httpSelfHostServer.CloseAsync().Wait();
                     _httpSelfHostServer.Dispose();
                     _httpSelfHostServer = null;
                 }
