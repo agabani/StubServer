@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Http\ContentTests.cs" />
     <Compile Include="Http\HttpStubServerTests.cs" />
+    <Compile Include="Http\PathTests.cs" />
     <Compile Include="Http\StatusCodeTests.cs" />
     <Compile Include="Http\MethodTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
