@@ -27,7 +27,8 @@ namespace StubServer.Tests.Acceptance.Http
 
             HttpClient = new HttpClient
             {
-                BaseAddress = baseAddress
+                BaseAddress = baseAddress,
+                Timeout = TimeSpan.FromSeconds(1)
             };
         }
 
