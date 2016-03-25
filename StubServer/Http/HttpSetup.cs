@@ -4,12 +4,12 @@ using System.Net.Http;
 
 namespace StubServer.Http
 {
-    public class HttpSetup : ISetup<HttpResponseMessage>
+    internal class HttpSetup : ISetup<HttpResponseMessage>
     {
         private readonly Func<HttpRequestMessage, bool> _expression;
         private Func<HttpResponseMessage> _response;
 
-        public HttpSetup(Expression<Func<HttpRequestMessage, bool>> expression)
+        internal HttpSetup(Expression<Func<HttpRequestMessage, bool>> expression)
         {
             _expression = expression.Compile();
         }
@@ -19,7 +19,7 @@ namespace StubServer.Http
             _response = response;
         }
 
-        public HttpResponseMessage Result(HttpRequestMessage request)
+        internal HttpResponseMessage Result(HttpRequestMessage request)
         {
             return _expression(request) ? _response() : null;
         }

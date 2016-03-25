@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StubServer.Http
 {
-    public class StubHttpMessageHandler : HttpMessageHandler
+    internal class StubHttpMessageHandler : HttpMessageHandler
     {
         private readonly List<HttpSetup> _setups = new List<HttpSetup>();
 
@@ -27,7 +27,7 @@ namespace StubServer.Http
             return Task.FromResult(new HttpResponseMessage(HttpStatusCode.NotFound));
         }
 
-        public ISetup<HttpResponseMessage> AddSetup(Expression<Func<HttpRequestMessage, bool>> expression)
+        internal ISetup<HttpResponseMessage> AddSetup(Expression<Func<HttpRequestMessage, bool>> expression)
         {
             HttpSetup httpSetup;
             _setups.Add(httpSetup = new HttpSetup(expression));
