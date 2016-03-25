@@ -25,9 +25,9 @@ namespace StubServer.Http
             _response = response;
         }
 
-        internal async Task<HttpResponseMessage> Result(HttpRequestMessage request)
+        internal Task<HttpResponseMessage> Result(HttpRequestMessage request)
         {
-            return _expression(request) ? await _response() : null;
+            return _expression(request) ? _response() : Task.FromResult<HttpResponseMessage>(null);
         }
     }
 }
