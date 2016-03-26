@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
@@ -17,7 +16,7 @@ namespace StubServer.Http
         {
             foreach (var setup in _setups)
             {
-                var httpResponseMessage = await setup.Result(request);
+                var httpResponseMessage = await setup.Result(request, cancellationToken);
 
                 if (httpResponseMessage != null)
                 {
