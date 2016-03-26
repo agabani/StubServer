@@ -148,5 +148,37 @@ namespace StubServer.Tests.Acceptance.Http
             // Clean Up
             httpStubServer.Dispose();
         }
+
+        [Test]
+        public void Redirect_tests()
+        {
+            // Arrange
+            IHttpStubServer httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
+
+            httpStubServer
+                .Setup(message => message.RequestUri.PathAndQuery.Equals("/"))
+                .Returns(() => new HttpResponseMessage(HttpStatusCode.Redirect)
+                {
+                    Headers = { Location = new Uri("http://localhost:5000/redirect")}
+                });
+
+            httpStubServer
+                .Setup(message => message.RequestUri.PathAndQuery.Equals("/redirect"))
+                .Returns(() => new HttpResponseMessage(HttpStatusCode.OK));
+
+            var httpClient = new HttpClient(new HttpClientHandler{AllowAutoRedirect = true})
+            {
+                BaseAddress = new Uri("http://localhost:5000")
+            };
+
+            // Act
+            var httpResponseMessage = httpClient.GetAsync("/").GetAwaiter().GetResult();
+
+            // Assert
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+
+            // Clean Up
+            httpStubServer.Dispose();
+        }
     }
 }

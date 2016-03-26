@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Net.Http;
+using System.ServiceModel;
 using System.Web.Http.SelfHost;
 
 namespace StubServer.Http
@@ -12,8 +13,10 @@ namespace StubServer.Http
 
         public HttpStubServer(Uri baseAddress)
         {
-            _httpSelfHostServer = new HttpSelfHostServer(new HttpSelfHostConfiguration(baseAddress),
-                _stubHttpMessageHandler = new StubHttpMessageHandler());
+            _httpSelfHostServer = new HttpSelfHostServer(new HttpSelfHostConfiguration(baseAddress)
+            {
+                HostNameComparisonMode = HostNameComparisonMode.Exact
+            }, _stubHttpMessageHandler = new StubHttpMessageHandler());
 
             _httpSelfHostServer.OpenAsync().Wait();
         }
