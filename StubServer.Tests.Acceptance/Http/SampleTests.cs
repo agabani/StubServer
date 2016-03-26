@@ -139,6 +139,7 @@ namespace StubServer.Tests.Acceptance.Http
             var httpClient = new HttpClient {BaseAddress = new Uri("http://localhost:5000")};
 
             // Act
+            // ReSharper disable once MethodSupportsCancellation
             var httpResponseMessage = httpClient.GetAsync("/").GetAwaiter().GetResult();
 
             // Assert
