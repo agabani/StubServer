@@ -75,10 +75,7 @@ namespace StubServer.Tests.Acceptance.Http
                     Headers = {Location = new Uri("http://location:5000/account/1")}
                 });
 
-            var httpClient = new HttpClient
-            {
-                BaseAddress = new Uri("http://localhost:5000")
-            };
+            var httpClient = new HttpClient {BaseAddress = new Uri("http://localhost:5000")};
 
             // Act
             var httpResponseMessage = httpClient.PostAsync("account/signup", new FormUrlEncodedContent(new[]
@@ -91,6 +88,37 @@ namespace StubServer.Tests.Acceptance.Http
             // Assert
             Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.Created));
             Assert.That(httpResponseMessage.Headers.Location, Is.EqualTo(new Uri("http://location:5000/account/1")));
+
+            // Clean Up
+            httpStubServer.Dispose();
+        }
+
+        [Test]
+        public void ChainedResponses()
+        {
+            // Arrange
+            IHttpStubServer httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
+
+            httpStubServer
+                .Setup(message => true)
+                .Returns(() => new HttpResponseMessage(HttpStatusCode.OK))
+                .Returns(() => new HttpResponseMessage(HttpStatusCode.NotModified))
+                .Returns(() => new HttpResponseMessage(HttpStatusCode.ServiceUnavailable));
+
+            var httpClient = new HttpClient {BaseAddress = new Uri("http://localhost:5000")};
+
+            // Act & Assert
+            var httpResponseMessage = httpClient.GetAsync("/").GetAwaiter().GetResult();
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+
+            httpResponseMessage = httpClient.GetAsync("/").GetAwaiter().GetResult();
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.NotModified));
+
+            httpResponseMessage = httpClient.GetAsync("/").GetAwaiter().GetResult();
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.ServiceUnavailable));
+
+            httpResponseMessage = httpClient.GetAsync("/").GetAwaiter().GetResult();
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.ServiceUnavailable));
 
             // Clean Up
             httpStubServer.Dispose();
@@ -159,14 +187,14 @@ namespace StubServer.Tests.Acceptance.Http
                 .Setup(message => message.RequestUri.PathAndQuery.Equals("/"))
                 .Returns(() => new HttpResponseMessage(HttpStatusCode.Redirect)
                 {
-                    Headers = { Location = new Uri("http://localhost:5000/redirect")}
+                    Headers = {Location = new Uri("http://localhost:5000/redirect")}
                 });
 
             httpStubServer
                 .Setup(message => message.RequestUri.PathAndQuery.Equals("/redirect"))
                 .Returns(() => new HttpResponseMessage(HttpStatusCode.OK));
 
-            var httpClient = new HttpClient(new HttpClientHandler{AllowAutoRedirect = true})
+            var httpClient = new HttpClient(new HttpClientHandler {AllowAutoRedirect = true})
             {
                 BaseAddress = new Uri("http://localhost:5000")
             };
