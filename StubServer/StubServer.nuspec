@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>0.1.2.0</version>
+    <version>0.1.3.0</version>
     <title>$title$</title>
     <authors>agabani</authors>
     <owners>agabani</owners>
     <projectUrl>https://github.com/agabani/StubServer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Quickly stub out 3rd party servers to be used against your automated development test cycle. Designed to feel familiar to use, without having restrictions forced upon you.</description>
-    <releaseNotes>Removed need for running as administrator when using hostnames.</releaseNotes>
+    <releaseNotes>Support for chained responses for single setup.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Stub Server HTTP Testing</tags>
   </metadata>
