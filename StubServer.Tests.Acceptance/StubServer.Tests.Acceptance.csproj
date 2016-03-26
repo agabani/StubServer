@@ -53,6 +53,7 @@
     <Compile Include="Http\PathTests.cs" />
     <Compile Include="Http\RedirectTests.cs" />
     <Compile Include="Http\SampleTests.cs" />
+    <Compile Include="Http\SetupTests.cs" />
     <Compile Include="Http\StatusCodeTests.cs" />
     <Compile Include="Http\MethodTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
