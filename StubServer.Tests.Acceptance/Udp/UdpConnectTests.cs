@@ -11,7 +11,11 @@ namespace StubServer.Tests.Acceptance.Udp
         [Test]
         public void Should_connect()
         {
-            var udpStubServer = new UdpStubServer();
+            var udpStubServer = new UdpStubServer(IPAddress.Any, 5051);
+
+            udpStubServer
+                .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
+                .Returns(() => Encoding.UTF8.GetBytes("John Smith"));
 
             var udpClient = new UdpClient();
             var ipAddress = IPAddress.Loopback;

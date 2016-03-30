@@ -1,50 +1,39 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Net;
-using System.Net.Sockets;
-using System.Text;
 
 namespace StubServer.Udp
 {
-    public class UdpStubServer
+    public class UdpStubServer : IUdpStubServer
     {
-        private UdpClient _udpClient;
-        private IPEndPoint _ipEndPoint;
+        private StubUdpClientHandler _stubUdpClientHandler;
 
-        public UdpStubServer()
+        public UdpStubServer(IPAddress ipAddress, int port)
         {
-            _ipEndPoint = new IPEndPoint(IPAddress.Any, 5051);
-            _udpClient = new UdpClient(_ipEndPoint);
-
-            _udpClient.BeginReceive(RequestCallback, new ObjectState(_udpClient, _ipEndPoint));
+            _stubUdpClientHandler = new StubUdpClientHandler(new IPEndPoint(ipAddress, port));
         }
 
-        private void RequestCallback(IAsyncResult ar)
+        public ISetup<byte[]> Setup(Expression<Func<byte[], bool>> expression)
         {
-            var objectState = (ObjectState) ar.AsyncState;
-            var ipEndPoint = objectState.IpEndPoint;
-
-            var endReceiveBytes = objectState.UdpClient.EndReceive(ar, ref ipEndPoint);
-
-            var receive = Encoding.UTF8.GetString(endReceiveBytes);
-
-            if (receive == "Hello, World!")
-            {
-                var bytes = Encoding.UTF8.GetBytes("John Smith");
-
-                objectState.UdpClient.Send(bytes, bytes.Length, ipEndPoint);
-            }
+            return _stubUdpClientHandler.AddSetup(expression);
         }
 
-        private class ObjectState
+        public void Dispose()
         {
-            public ObjectState(UdpClient udpClient, IPEndPoint ipEndPoint)
-            {
-                UdpClient = udpClient;
-                IpEndPoint = ipEndPoint;
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-            public UdpClient UdpClient { get; private set; }
-            public IPEndPoint IpEndPoint { get; private set; }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_stubUdpClientHandler != null)
+                {
+                    _stubUdpClientHandler.Close();
+                    _stubUdpClientHandler = null;
+                }
+            }
         }
     }
 }

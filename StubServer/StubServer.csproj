@@ -46,6 +46,9 @@
     <Compile Include="Http\StubHttpMessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Http\HttpSetup.cs" />
+    <Compile Include="Udp\IUdpStubServer.cs" />
+    <Compile Include="Udp\StubUdpClientHandler.cs" />
+    <Compile Include="Udp\UdpSetup.cs" />
     <Compile Include="Udp\UdpStubServer.cs" />
   </ItemGroup>
   <ItemGroup />
