@@ -6,7 +6,7 @@
 
 > Can be as simple as you want... Or as complex...
 
-[![NuGet downloads](https://img.shields.io/badge/nuget-v0.1.4-blue.svg)](https://www.nuget.org/packages/StubServer)
+[![NuGet downloads](https://img.shields.io/badge/nuget-v0.1.5-blue.svg)](https://www.nuget.org/packages/StubServer)
 
 Checkout the [Quickstart](https://github.com/agabani/StubServer/wiki/Quickstart) for more examples!
 
@@ -30,6 +30,37 @@ Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
 // Clean Up
 httpStubServer.Dispose();
+```
+
+### Example TCP StubServer
+```csharp
+// Arrange
+ITcpStubServer tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
+
+tcpStubServer
+	.Setup(bytes => Encoding.UTF8.GetString(bytes).Equals("Hi!"))
+	.Returns(() => Encoding.UTF8.GetBytes("Hello, World!"));
+
+var tcpClient = new TcpClient();
+tcpClient.Connect(IPAddress.Loopback, 5000);
+
+var networkStream = tcpClient.GetStream();
+
+var message = Encoding.UTF8.GetBytes("Hi!");
+
+networkStream.Write(message, 0, message.Length);
+
+// Act
+var buffer = new byte[8192];
+var read = networkStream.Read(buffer, 0, buffer.Length);
+
+// Assert
+Assert.That(Encoding.UTF8.GetString(buffer, 0, read), Is.EqualTo("Hello, World!"));
+
+// Cleanup
+networkStream.Dispose();
+tcpClient.Close();
+tcpStubServer.Dispose();
 ```
 
 ### Example UDP StubServer
