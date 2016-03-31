@@ -15,7 +15,10 @@ namespace StubServer.Tests.Acceptance.Udp
         public void SetUp()
         {
             UdpStubServer = new UdpStubServer(IPAddress.Any, 5051);
-            UdpClient = new UdpClient();
+            UdpClient = new UdpClient
+            {
+                Client = {ReceiveTimeout = (int) TimeSpan.FromSeconds(1).TotalMilliseconds}
+            };
             UdpClient.Connect(IPAddress.Loopback, 5051);
         }
 
