@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace StubServer.Tests.Acceptance.Udp
 {
-    internal class MultipleReturnTests : UdpStubServerTests
+    internal class ChainedReturnTests : UdpStubServerTests
     {
         [Test]
         public void Should_return_response()

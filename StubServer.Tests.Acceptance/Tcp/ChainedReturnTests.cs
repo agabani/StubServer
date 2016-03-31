@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace StubServer.Tests.Acceptance.Tcp
 {
-    internal class MultipleReturnTests : TcpStubServerTests
+    internal class ChainedReturnTests : TcpStubServerTests
     {
         [Test]
         public void Should_return_response()
