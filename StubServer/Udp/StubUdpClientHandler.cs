@@ -9,7 +9,7 @@ namespace StubServer.Udp
 {
     internal class StubUdpClientHandler : UdpClient
     {
-        private readonly List<UdpSetup> _setups = new List<UdpSetup>();
+        private readonly List<Setup<byte[], byte[]>> _setups = new List<Setup<byte[], byte[]>>();
 
         public StubUdpClientHandler(IPEndPoint ipEndPoint) : base(ipEndPoint)
         {
@@ -43,8 +43,8 @@ namespace StubServer.Udp
 
         internal ISetup<byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
         {
-            UdpSetup udpSetup;
-            _setups.Add(udpSetup = new UdpSetup(expression));
+            Setup<byte[], byte[]> udpSetup;
+            _setups.Add(udpSetup = new Setup<byte[], byte[]>(expression));
             return udpSetup;
         }
     }

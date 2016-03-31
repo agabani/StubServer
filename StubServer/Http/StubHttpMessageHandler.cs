@@ -10,7 +10,7 @@ namespace StubServer.Http
 {
     internal class StubHttpMessageHandler : HttpMessageHandler
     {
-        private readonly List<HttpSetup> _setups = new List<HttpSetup>();
+        private readonly List<Setup<HttpRequestMessage, HttpResponseMessage>> _setups = new List<Setup<HttpRequestMessage, HttpResponseMessage>>();
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
@@ -29,8 +29,8 @@ namespace StubServer.Http
 
         internal ISetup<HttpResponseMessage> AddSetup(Expression<Func<HttpRequestMessage, bool>> expression)
         {
-            HttpSetup httpSetup;
-            _setups.Add(httpSetup = new HttpSetup(expression));
+            Setup<HttpRequestMessage, HttpResponseMessage> httpSetup;
+            _setups.Add(httpSetup = new Setup<HttpRequestMessage, HttpResponseMessage>(expression));
             return httpSetup;
         }
     }
