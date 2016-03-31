@@ -57,6 +57,7 @@
     <Compile Include="Http\StatusCodeTests.cs" />
     <Compile Include="Http\MethodTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tcp\ConcurrentClientsTests.cs" />
     <Compile Include="Tcp\DelayedTests.cs" />
     <Compile Include="Tcp\ChainedReturnTests.cs" />
     <Compile Include="Tcp\NetworkStreamExtensions.cs" />
