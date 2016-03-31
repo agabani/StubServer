@@ -14,14 +14,10 @@ namespace StubServer.Tests.Acceptance.Tcp
                 .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
                 .Returns(() => Encoding.UTF8.GetBytes("John Smith"));
 
-            var request = Encoding.UTF8.GetBytes("Hello, World!");
-
-            NetworkStream.Write(request, 0, request.Length);
+            NetworkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
 
             // Act
-            var response = new byte[256];
-            var bytes = NetworkStream.Read(response, 0, response.Length);
-            var message = Encoding.UTF8.GetString(response, 0, bytes);
+            var message = Encoding.UTF8.GetString(NetworkStream.Read());
 
             // Assert
             Assert.That(message, Is.EqualTo("John Smith"));
@@ -35,16 +31,11 @@ namespace StubServer.Tests.Acceptance.Tcp
                 .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
                 .Returns(() => Encoding.UTF8.GetBytes("John Smith"));
 
-            var request = Encoding.UTF8.GetBytes("Hello, World!");
-
             // Act and Assert
             for (var i = 0; i < 3; i++)
             {
-                Console.WriteLine(i);
-                NetworkStream.Write(request, 0, request.Length);
-                var response = new byte[256];
-                var bytes = NetworkStream.Read(response, 0, response.Length);
-                var message = Encoding.UTF8.GetString(response, 0, bytes);
+                NetworkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
+                var message = Encoding.UTF8.GetString(NetworkStream.Read());
                 Assert.That(message, Is.EqualTo("John Smith"));
             }
         }
