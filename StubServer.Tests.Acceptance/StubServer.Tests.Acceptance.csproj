@@ -60,6 +60,7 @@
     <Compile Include="Tcp\DelayedTests.cs" />
     <Compile Include="Tcp\ChainedReturnTests.cs" />
     <Compile Include="Tcp\NetworkStreamExtensions.cs" />
+    <Compile Include="Tcp\NoRequestTests.cs" />
     <Compile Include="Tcp\NoResponseTests.cs" />
     <Compile Include="Tcp\SingleReturnTests.cs" />
     <Compile Include="Tcp\TcpStubServerTests.cs" />
