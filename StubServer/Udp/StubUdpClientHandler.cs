@@ -30,9 +30,12 @@ namespace StubServer.Udp
                 if (result != null)
                 {
                     objectState.UdpClient.Send(result, result.Length, ipEndPoint);
+                    objectState.UdpClient.BeginReceive(RequestCallback, objectState);
                     return;
                 }
             }
+
+            objectState.UdpClient.BeginReceive(RequestCallback, objectState);
         }
 
         internal ISetup<byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
