@@ -41,19 +41,23 @@ namespace StubServer.Tcp
             using (var networkStream = tcpClient.GetStream())
             {
                 var buffer = new byte[8192];
-                var bytes = networkStream.Read(buffer, 0, buffer.Length);
 
-                var request = buffer.Take(bytes).ToArray();
-
-                foreach (var setup in _setups)
+                do
                 {
-                    var result = await setup.Result(request, CancellationToken.None);
+                    var request = buffer
+                        .Take(networkStream.Read(buffer, 0, buffer.Length))
+                        .ToArray();
 
-                    if (result != null)
+                    foreach (var setup in _setups)
                     {
-                        networkStream.Write(result, 0, result.Length);
+                        var result = await setup.Result(request, CancellationToken.None);
+
+                        if (result != null)
+                        {
+                            networkStream.Write(result, 0, result.Length);
+                        }
                     }
-                }
+                } while (tcpClient.Connected);
             }
         }
 
