@@ -11,7 +11,7 @@ namespace StubServer.Udp
     {
         private readonly List<Setup<byte[], byte[]>> _setups = new List<Setup<byte[], byte[]>>();
 
-        public StubUdpClientHandler(IPEndPoint ipEndPoint) : base(ipEndPoint)
+        internal StubUdpClientHandler(IPEndPoint ipEndPoint) : base(ipEndPoint)
         {
             BeginReceive(RequestCallback, ipEndPoint);
         }
