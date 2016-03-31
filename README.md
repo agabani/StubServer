@@ -8,7 +8,7 @@
 
 [![NuGet downloads](https://img.shields.io/badge/nuget-v0.1.5-blue.svg)](https://www.nuget.org/packages/StubServer)
 
-Checkout the [Quickstart](https://github.com/agabani/StubServer/wiki/Quickstart) for more examples!
+Checkout the [Wiki](https://github.com/agabani/StubServer/wiki) for more examples!
 
 ### Example HTTP StubServer
 ```csharp
