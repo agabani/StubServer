@@ -11,7 +11,7 @@ namespace StubServer.Tests.Acceptance.Tcp
             // Arrange
             TcpStubServer
                 .Setup(b => Encoding.UTF8.GetString(b).Equals("Hello!"))
-                .Returns(() => Encoding.UTF8.GetBytes("Hello!"));
+                .Returns(() => Encoding.UTF8.GetBytes("Hi!"));
 
             var request = Encoding.UTF8.GetBytes("Hello!");
 
