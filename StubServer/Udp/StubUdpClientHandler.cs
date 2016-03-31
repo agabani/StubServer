@@ -13,29 +13,32 @@ namespace StubServer.Udp
 
         public StubUdpClientHandler(IPEndPoint ipEndPoint) : base(ipEndPoint)
         {
-            BeginReceive(RequestCallback, new ObjectState(this, ipEndPoint));
+            BeginReceive(RequestCallback, ipEndPoint);
         }
 
         private void RequestCallback(IAsyncResult ar)
         {
-            var objectState = (ObjectState) ar.AsyncState;
-            var ipEndPoint = objectState.IpEndPoint;
+            var ipEndPoint = (IPEndPoint) ar.AsyncState;
 
-            var endReceiveBytes = objectState.UdpClient.EndReceive(ar, ref ipEndPoint);
+            var bytes = EndReceive(ar, ref ipEndPoint);
 
+            BeginReceive(RequestCallback, ipEndPoint);
+
+            ProcessRequest(bytes, ipEndPoint);
+        }
+
+        private async void ProcessRequest(byte[] bytes, IPEndPoint ipEndPoint)
+        {
             foreach (var setup in _setups)
             {
-                var result = setup.Result(endReceiveBytes, CancellationToken.None).Result;
+                var result = await setup.Result(bytes, CancellationToken.None);
 
                 if (result != null)
                 {
-                    objectState.UdpClient.Send(result, result.Length, ipEndPoint);
-                    objectState.UdpClient.BeginReceive(RequestCallback, objectState);
+                    Send(result, result.Length, ipEndPoint);
                     return;
                 }
             }
-
-            objectState.UdpClient.BeginReceive(RequestCallback, objectState);
         }
 
         internal ISetup<byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
@@ -43,18 +46,6 @@ namespace StubServer.Udp
             UdpSetup udpSetup;
             _setups.Add(udpSetup = new UdpSetup(expression));
             return udpSetup;
-        }
-
-        private class ObjectState
-        {
-            public ObjectState(UdpClient udpClient, IPEndPoint ipEndPoint)
-            {
-                UdpClient = udpClient;
-                IpEndPoint = ipEndPoint;
-            }
-
-            public UdpClient UdpClient { get; }
-            public IPEndPoint IpEndPoint { get; }
         }
     }
 }
