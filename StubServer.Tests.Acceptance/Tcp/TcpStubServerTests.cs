@@ -16,7 +16,10 @@ namespace StubServer.Tests.Acceptance.Tcp
         public void SetUp()
         {
             TcpStubServer = new TcpStubServer(IPAddress.Loopback, 5053);
-            _tcpClient = new TcpClient();
+            _tcpClient = new TcpClient
+            {
+                Client = {ReceiveTimeout = (int) TimeSpan.FromSeconds(1).TotalMilliseconds}
+            };
             _tcpClient.Connect(new IPEndPoint(IPAddress.Loopback, 5053));
             NetworkStream = _tcpClient.GetStream();
         }
