@@ -57,6 +57,7 @@
     <Compile Include="Http\StatusCodeTests.cs" />
     <Compile Include="Http\MethodTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Udp\MultipleReturnTests.cs" />
     <Compile Include="Udp\SingleReturnTests.cs" />
     <Compile Include="Udp\UdpClientExtensions.cs" />
     <Compile Include="Udp\UdpStubServerTests.cs" />
