@@ -2,15 +2,15 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>0.1.3.0</version>
+    <version>0.1.4.0</version>
     <title>$title$</title>
     <authors>agabani</authors>
     <owners>agabani</owners>
     <projectUrl>https://github.com/agabani/StubServer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Quickly stub out 3rd party servers to be used against your automated development test cycle. Designed to feel familiar to use, without having restrictions forced upon you.</description>
-    <releaseNotes>Support for chained responses for single setup.</releaseNotes>
+    <releaseNotes>Introduced UDP Stub Server</releaseNotes>
     <copyright>Copyright 2016</copyright>
-    <tags>Stub Server HTTP Testing</tags>
+    <tags>Stub Server HTTP UDP Testing</tags>
   </metadata>
 </package>
