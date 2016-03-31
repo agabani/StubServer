@@ -8,7 +8,9 @@
 
 [![NuGet downloads](https://img.shields.io/badge/nuget-v0.1.3-blue.svg)](https://www.nuget.org/packages/StubServer)
 
-### Example Http StubServer
+Checkout the [Quickstart](https://github.com/agabani/StubServer/wiki/Quickstart) for more examples!
+
+### Example HTTP StubServer
 ```csharp
 // Arrange
 IHttpStubServer httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
@@ -30,4 +32,30 @@ Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 httpStubServer.Dispose();
 ```
 
-Checkout the [Quickstart](https://github.com/agabani/StubServer/wiki/Quickstart) for more examples!
+### Example UDP StubServer
+```csharp
+// Arrange
+IUdpStubServer udpStubServer = new UdpStubServer(IPAddress.Any, 5000);
+
+udpStubServer
+	.Setup(bytes => Encoding.UTF8.GetString(bytes).Equals("Hi!"))
+	.Returns(() => Encoding.UTF8.GetBytes("Hello, World!"));
+
+var udpClient = new UdpClient();
+udpClient.Connect(IPAddress.Loopback, 5000);
+
+var message = Encoding.UTF8.GetBytes("Hi!");
+
+udpClient.Send(message, message.Length);
+
+// Act
+var ipEndPoint = new IPEndPoint(IPAddress.Any, 0);
+var receive = udpClient.Receive(ref ipEndPoint);
+
+// Assert
+Assert.That(Encoding.UTF8.GetString(receive), Is.EqualTo("Hello, World!"));
+
+// Cleanup
+udpStubServer.Dispose();
+udpClient.Close();
+```
