@@ -8,11 +8,11 @@ using System.Threading;
 
 namespace StubServer.Tcp
 {
-    internal class StubTcpListener : TcpListener, IDisposable
+    internal class StubTcpListenerHandler : TcpListener, IDisposable
     {
         private readonly List<Setup<byte[], byte[]>> _setups = new List<Setup<byte[], byte[]>>();
 
-        internal StubTcpListener(IPEndPoint ipEndPoint) : base(ipEndPoint)
+        internal StubTcpListenerHandler(IPEndPoint ipEndPoint) : base(ipEndPoint)
         {
             Start();
             BeginAcceptTcpClient(RequestCallback, this);

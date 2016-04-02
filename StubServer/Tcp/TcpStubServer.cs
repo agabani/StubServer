@@ -6,16 +6,16 @@ namespace StubServer.Tcp
 {
     public class TcpStubServer : ITcpStubServer
     {
-        private StubTcpListener _stubTcpListener;
+        private StubTcpListenerHandler _stubTcpListenerHandler;
 
         public TcpStubServer(IPAddress ipAddress, int port)
         {
-            _stubTcpListener = new StubTcpListener(new IPEndPoint(ipAddress, port));
+            _stubTcpListenerHandler = new StubTcpListenerHandler(new IPEndPoint(ipAddress, port));
         }
 
         public ISetup<byte[]> Setup(Expression<Func<byte[], bool>> expression)
         {
-            return _stubTcpListener.AddSetup(expression);
+            return _stubTcpListenerHandler.AddSetup(expression);
         }
 
         public void Dispose()
@@ -28,10 +28,10 @@ namespace StubServer.Tcp
         {
             if (disposing)
             {
-                if (_stubTcpListener != null)
+                if (_stubTcpListenerHandler != null)
                 {
-                    _stubTcpListener.Dispose();
-                    _stubTcpListener = null;
+                    _stubTcpListenerHandler.Dispose();
+                    _stubTcpListenerHandler = null;
                 }
             }
         }
