@@ -9,72 +9,79 @@ namespace StubServer.Tests.Acceptance.Udp
         public void Should_return_response()
         {
             // Arrange
-            UdpStubServer
+            var udpStubServer = NewStubServer();
+
+            udpStubServer
                 .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
                 .Returns(() => Encoding.UTF8.GetBytes("John Smith"))
                 .Returns(() => Encoding.UTF8.GetBytes("James Bond"))
                 .Returns(() => Encoding.UTF8.GetBytes("Bob Marley"));
 
-            // Act and Assert
-            UdpClient
+            var udpClient = NewUdpClient();
+
+            // Act & Assert
+            udpClient
                 .Send(Encoding.UTF8.GetBytes("Hello, World!"));
 
-            var response = Encoding.UTF8.GetString(UdpClient.Receive());
+            Assert.That(Encoding.UTF8.GetString(udpClient.Receive()), Is.EqualTo("John Smith"));
 
-            Assert.That(response, Is.EqualTo("John Smith"));
-
-            UdpClient
+            // Act & Assert
+            udpClient
                 .Send(Encoding.UTF8.GetBytes("Hello, World!"));
 
-            response = Encoding.UTF8.GetString(UdpClient.Receive());
+            Assert.That(Encoding.UTF8.GetString(udpClient.Receive()), Is.EqualTo("James Bond"));
 
-            Assert.That(response, Is.EqualTo("James Bond"));
-
-            UdpClient
+            // Act & Assert
+            udpClient
                 .Send(Encoding.UTF8.GetBytes("Hello, World!"));
 
-            response = Encoding.UTF8.GetString(UdpClient.Receive());
+            Assert.That(Encoding.UTF8.GetString(udpClient.Receive()), Is.EqualTo("Bob Marley"));
 
-            Assert.That(response, Is.EqualTo("Bob Marley"));
+            // Cleanup
+            Cleanup(udpClient);
+            Cleanup(udpStubServer);
         }
 
         [Test]
         public void Should_return_response_then_repeat_final_response()
         {
             // Arrange
-            UdpStubServer
+            var udpStubServer = NewStubServer();
+
+            udpStubServer
                 .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
                 .Returns(() => Encoding.UTF8.GetBytes("John Smith"))
                 .Returns(() => Encoding.UTF8.GetBytes("James Bond"));
 
-            // Act and Assert
-            UdpClient
+            var udpClient = NewUdpClient();
+
+            // Act & Assert
+            udpClient
                 .Send(Encoding.UTF8.GetBytes("Hello, World!"));
 
-            var response = Encoding.UTF8.GetString(UdpClient.Receive());
+            Assert.That(Encoding.UTF8.GetString(udpClient.Receive()), Is.EqualTo("John Smith"));
 
-            Assert.That(response, Is.EqualTo("John Smith"));
-
-            UdpClient
+            // Act & Assert
+            udpClient
                 .Send(Encoding.UTF8.GetBytes("Hello, World!"));
 
-            response = Encoding.UTF8.GetString(UdpClient.Receive());
+            Assert.That(Encoding.UTF8.GetString(udpClient.Receive()), Is.EqualTo("James Bond"));
 
-            Assert.That(response, Is.EqualTo("James Bond"));
-
-            UdpClient
+            // Act & Assert
+            udpClient
                 .Send(Encoding.UTF8.GetBytes("Hello, World!"));
 
-            response = Encoding.UTF8.GetString(UdpClient.Receive());
+            Assert.That(Encoding.UTF8.GetString(udpClient.Receive()), Is.EqualTo("James Bond"));
 
-            Assert.That(response, Is.EqualTo("James Bond"));
-
-            UdpClient
+            // Act & Assert
+            udpClient
                 .Send(Encoding.UTF8.GetBytes("Hello, World!"));
 
-            response = Encoding.UTF8.GetString(UdpClient.Receive());
+            Assert.That(Encoding.UTF8.GetString(udpClient.Receive()), Is.EqualTo("James Bond"));
 
-            Assert.That(response, Is.EqualTo("James Bond"));
+            // Cleanup
+            Cleanup(udpClient);
+            Cleanup(udpStubServer);
         }
     }
 }

@@ -10,17 +10,25 @@ namespace StubServer.Tests.Acceptance.Udp
         public void Should_not_response_to_non_setup_requests()
         {
             // Arrange
-            UdpStubServer
+            var udpStubServer = NewStubServer();
+
+            udpStubServer
                 .Setup(message => false)
                 .Returns(() => Encoding.UTF8.GetBytes("Not Setup"));
 
-            UdpClient.Send(new byte[] { });
+            var udpClient = NewUdpClient();
+
+            udpClient.Send(new byte[] {});
 
             // Act
-            TestDelegate testDelegate = () => UdpClient.Receive();
+            TestDelegate testDelegate = () => udpClient.Receive();
 
             // Assert
             Assert.Throws<SocketException>(testDelegate);
+
+            // Cleanup
+            Cleanup(udpClient);
+            Cleanup(udpStubServer);
         }
     }
 }

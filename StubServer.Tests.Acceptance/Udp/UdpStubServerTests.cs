@@ -1,56 +1,35 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using NUnit.Framework;
 using StubServer.Udp;
 
 namespace StubServer.Tests.Acceptance.Udp
 {
-    internal abstract class UdpStubServerTests : IDisposable
+    internal abstract class UdpStubServerTests
     {
-        protected IUdpStubServer UdpStubServer;
-        protected UdpClient UdpClient;
-
-        [SetUp]
-        public void SetUp()
+        protected IUdpStubServer NewStubServer()
         {
-            UdpStubServer = new UdpStubServer(IPAddress.Any, 5051);
-            UdpClient = new UdpClient
+            return new UdpStubServer(IPAddress.Any, 5051);
+        }
+
+        protected UdpClient NewUdpClient()
+        {
+            var udpClient = new UdpClient
             {
                 Client = {ReceiveTimeout = (int) TimeSpan.FromSeconds(1).TotalMilliseconds}
             };
-            UdpClient.Connect(IPAddress.Loopback, 5051);
+            udpClient.Connect(IPAddress.Loopback, 5051);
+            return udpClient;
         }
 
-        [TearDown]
-        public void TearDown()
+        protected void Cleanup(UdpClient udpClient)
         {
-            UdpClient.Close();
-            UdpStubServer.Dispose();
+            udpClient.Close();
         }
 
-        public void Dispose()
+        protected void Cleanup(IDisposable disposable)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (UdpStubServer != null)
-                {
-                    UdpStubServer.Dispose();
-                    UdpStubServer = null;
-                }
-
-                if (UdpClient != null)
-                {
-                    UdpClient.Close();
-                    UdpClient = null;
-                }
-            }
+            disposable.Dispose();
         }
     }
 }

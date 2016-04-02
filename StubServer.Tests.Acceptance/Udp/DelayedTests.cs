@@ -13,7 +13,9 @@ namespace StubServer.Tests.Acceptance.Udp
         public void Should_return_response_after_a_delayed_period()
         {
             // Arrange
-            UdpStubServer
+            var udpStubServer = NewStubServer();
+
+            udpStubServer
                 .Setup(bytes => true)
                 .Returns(async () =>
                 {
@@ -21,25 +23,33 @@ namespace StubServer.Tests.Acceptance.Udp
                     return Encoding.UTF8.GetBytes("500ms");
                 });
 
-            UdpClient.Send(new byte[] {});
+            var udpClient = NewUdpClient();
+
+            udpClient.Send(new byte[] {});
 
             var stopwatch = new Stopwatch();
 
             // Act
             stopwatch.Start();
-            var receive = UdpClient.Receive();
+            var receive = udpClient.Receive();
             stopwatch.Stop();
 
             // Assert
-            Assert.That(receive, Is.EqualTo("500ms"));
+            Assert.That(Encoding.UTF8.GetString(receive), Is.EqualTo("500ms"));
             Assert.That(stopwatch.Elapsed, Is.GreaterThanOrEqualTo(TimeSpan.FromMilliseconds(500)));
+
+            // Cleanup
+            Cleanup(udpClient);
+            Cleanup(udpStubServer);
         }
 
         [Test]
         public void Should_timeout_client()
         {
             // Arrange
-            UdpStubServer
+            var udpStubServer = NewStubServer();
+
+            udpStubServer
                 .Setup(message => true)
                 .Returns(async () =>
                 {
@@ -47,13 +57,19 @@ namespace StubServer.Tests.Acceptance.Udp
                     return Encoding.UTF8.GetBytes("2s");
                 });
 
-            UdpClient.Send(new byte[] { });
+            var udpClient = NewUdpClient();
+
+            udpClient.Send(new byte[] {});
 
             // Act
-            TestDelegate testDelegate = () => UdpClient.Receive();
+            TestDelegate testDelegate = () => udpClient.Receive();
 
             // Assert
             Assert.Throws<SocketException>(testDelegate);
+
+            // Cleanup
+            Cleanup(udpClient);
+            Cleanup(udpStubServer);
         }
     }
 }
