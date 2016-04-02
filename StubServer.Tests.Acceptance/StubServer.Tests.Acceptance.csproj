@@ -66,6 +66,7 @@
     <Compile Include="Tcp\SampleTests.cs" />
     <Compile Include="Tcp\SingleReturnTests.cs" />
     <Compile Include="Tcp\TcpStubServerTests.cs" />
+    <Compile Include="Udp\ConcurrentClientsTests.cs" />
     <Compile Include="Udp\DelayedTests.cs" />
     <Compile Include="Udp\ChainedReturnTests.cs" />
     <Compile Include="Udp\NoResponseTests.cs" />
