@@ -10,17 +10,27 @@ namespace StubServer.Tests.Acceptance.Tcp
         public void Should_not_response_to_non_setup_requests()
         {
             // Arrange
-            TcpStubServer
+            var tcpStubServer = NewStubServer();
+
+            tcpStubServer
                 .Setup(message => false)
                 .Returns(() => Encoding.UTF8.GetBytes("Not Setup"));
 
-            NetworkStream.Write(new[] {byte.MinValue});
+            var tcpClient = NewTcpClient();
+            var networkStream = tcpClient.GetStream();
+
+            networkStream.Write(new[] {byte.MinValue});
 
             // Act
-            TestDelegate testDelegate = () => NetworkStream.Read();
+            TestDelegate testDelegate = () => networkStream.Read();
 
             // Assert
             Assert.Throws<IOException>(testDelegate);
+
+            // Cleanup
+            Cleanup(networkStream);
+            Cleanup(tcpClient);
+            Cleanup(tcpStubServer);
         }
     }
 }

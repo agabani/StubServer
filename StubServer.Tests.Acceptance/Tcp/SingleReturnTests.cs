@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using NUnit.Framework;
 
 namespace StubServer.Tests.Acceptance.Tcp
@@ -10,34 +9,58 @@ namespace StubServer.Tests.Acceptance.Tcp
         public void Should_return_response()
         {
             // Arrange
-            TcpStubServer
+            var tcpStubServer = NewStubServer();
+
+            tcpStubServer
                 .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
                 .Returns(() => Encoding.UTF8.GetBytes("John Smith"));
 
-            NetworkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
+            var tcpClient = NewTcpClient();
+            var networkStream = tcpClient.GetStream();
+
+            networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
 
             // Act
-            var message = Encoding.UTF8.GetString(NetworkStream.Read());
+            var bytes = networkStream.Read();
 
             // Assert
-            Assert.That(message, Is.EqualTo("John Smith"));
+            Assert.That(Encoding.UTF8.GetString(bytes), Is.EqualTo("John Smith"));
+
+            // Cleanup
+            Cleanup(networkStream);
+            Cleanup(tcpClient);
+            Cleanup(tcpStubServer);
         }
 
         [Test]
         public void Should_return_response_multiple_times()
         {
             // Arrange
-            TcpStubServer
+            var tcpStubServer = NewStubServer();
+
+            tcpStubServer
                 .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
                 .Returns(() => Encoding.UTF8.GetBytes("John Smith"));
 
-            // Act and Assert
-            for (var i = 0; i < 3; i++)
-            {
-                NetworkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-                var message = Encoding.UTF8.GetString(NetworkStream.Read());
-                Assert.That(message, Is.EqualTo("John Smith"));
-            }
+            var tcpClient = NewTcpClient();
+            var networkStream = tcpClient.GetStream();
+
+            // Act & Assert
+            networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("John Smith"));
+
+            // Act & Assert
+            networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("John Smith"));
+
+            // Act & Assert
+            networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("John Smith"));
+
+            // Cleanup
+            Cleanup(networkStream);
+            Cleanup(tcpClient);
+            Cleanup(tcpStubServer);
         }
     }
 }

@@ -10,17 +10,27 @@ namespace StubServer.Tests.Acceptance.Tcp
         public void Should_not_response_to_no_request()
         {
             // Arrange
-            TcpStubServer
+            var tcpStubServer = NewStubServer();
+
+            tcpStubServer
                 .Setup(message => true)
                 .Returns(() => Encoding.UTF8.GetBytes("Setup"));
 
-            NetworkStream.Write(new byte[] { });
+            var tcpClient = NewTcpClient();
+            var networkStream = tcpClient.GetStream();
+
+            networkStream.Write(new byte[] {});
 
             // Act
-            TestDelegate testDelegate = () => NetworkStream.Read();
+            TestDelegate testDelegate = () => networkStream.Read();
 
             // Assert
             Assert.Throws<IOException>(testDelegate);
+
+            // Cleanup
+            Cleanup(networkStream);
+            Cleanup(tcpClient);
+            Cleanup(tcpStubServer);
         }
     }
 }

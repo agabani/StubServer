@@ -1,7 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
+﻿using System.Text;
 using NUnit.Framework;
 
 namespace StubServer.Tests.Acceptance.Tcp
@@ -12,55 +9,73 @@ namespace StubServer.Tests.Acceptance.Tcp
         public void Should_return_response()
         {
             // Arrange
-            TcpStubServer
+            var tcpStubServer = NewStubServer();
+
+            tcpStubServer
                 .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
                 .Returns(() => Encoding.UTF8.GetBytes("John Smith"))
                 .Returns(() => Encoding.UTF8.GetBytes("James Bond"))
                 .Returns(() => Encoding.UTF8.GetBytes("Bob Marley"));
 
-            // Act and Assert
-            NetworkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-            var response = Encoding.UTF8.GetString(NetworkStream.Read());
-            Assert.That(response, Is.EqualTo("John Smith"));
+            var tcpClient = NewTcpClient();
+            var networkStream = tcpClient.GetStream();
 
-            NetworkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-            response = Encoding.UTF8.GetString(NetworkStream.Read());
-            Assert.That(response, Is.EqualTo("James Bond"));
+            // Act & Assert
+            networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("John Smith"));
 
-            NetworkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-            response = Encoding.UTF8.GetString(NetworkStream.Read());
-            Assert.That(response, Is.EqualTo("Bob Marley"));
+            // Act & Assert
+            networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("James Bond"));
 
-            NetworkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-            response = Encoding.UTF8.GetString(NetworkStream.Read());
-            Assert.That(response, Is.EqualTo("Bob Marley"));
+            // Act & Assert
+            networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("Bob Marley"));
+
+            // Act & Assert
+            networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("Bob Marley"));
+
+            // Cleanup
+            Cleanup(networkStream);
+            Cleanup(tcpClient);
+            Cleanup(tcpStubServer);
         }
 
         [Test]
         public void Should_return_response_then_repeat_final_response()
         {
             // Arrange
-            TcpStubServer
+            var tcpStubServer = NewStubServer();
+
+            tcpStubServer
                 .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
                 .Returns(() => Encoding.UTF8.GetBytes("John Smith"))
                 .Returns(() => Encoding.UTF8.GetBytes("James Bond"));
 
-            // Act and Assert
-            NetworkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-            var response = Encoding.UTF8.GetString(NetworkStream.Read());
-            Assert.That(response, Is.EqualTo("John Smith"));
+            var tcpClient = NewTcpClient();
+            var networkStream = tcpClient.GetStream();
 
-            NetworkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-            response = Encoding.UTF8.GetString(NetworkStream.Read());
-            Assert.That(response, Is.EqualTo("James Bond"));
+            // Act & Assert
+            networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("John Smith"));
 
-            NetworkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-            response = Encoding.UTF8.GetString(NetworkStream.Read());
-            Assert.That(response, Is.EqualTo("James Bond"));
+            // Act & Assert
+            networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("James Bond"));
 
-            NetworkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-            response = Encoding.UTF8.GetString(NetworkStream.Read());
-            Assert.That(response, Is.EqualTo("James Bond"));
+            // Act & Assert
+            networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("James Bond"));
+
+            // Act & Assert
+            networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("James Bond"));
+
+            // Cleanup
+            Cleanup(networkStream);
+            Cleanup(tcpClient);
+            Cleanup(tcpStubServer);
         }
     }
 }

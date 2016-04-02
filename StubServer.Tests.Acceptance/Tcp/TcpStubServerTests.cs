@@ -1,65 +1,30 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using NUnit.Framework;
 using StubServer.Tcp;
 
 namespace StubServer.Tests.Acceptance.Tcp
 {
-    internal abstract class TcpStubServerTests : IDisposable
+    internal abstract class TcpStubServerTests
     {
-        protected ITcpStubServer TcpStubServer;
-        private TcpClient _tcpClient;
-        protected NetworkStream NetworkStream;
-
-        [SetUp]
-        public void SetUp()
+        protected ITcpStubServer NewStubServer()
         {
-            TcpStubServer = new TcpStubServer(IPAddress.Loopback, 5053);
-            _tcpClient = new TcpClient
+            return new TcpStubServer(IPAddress.Loopback, 5053);
+        }
+
+        protected TcpClient NewTcpClient()
+        {
+            var tcpClient = new TcpClient
             {
                 Client = {ReceiveTimeout = (int) TimeSpan.FromSeconds(1).TotalMilliseconds}
             };
-            _tcpClient.Connect(new IPEndPoint(IPAddress.Loopback, 5053));
-            NetworkStream = _tcpClient.GetStream();
+            tcpClient.Connect(new IPEndPoint(IPAddress.Loopback, 5053));
+            return tcpClient;
         }
 
-        [TearDown]
-        public void TearDown()
+        protected void Cleanup(IDisposable disposable)
         {
-            NetworkStream.Dispose();
-            _tcpClient.Close();
-            TcpStubServer.Dispose();
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (NetworkStream != null)
-                {
-                    NetworkStream.Dispose();
-                    NetworkStream = null;
-                }
-
-                if (_tcpClient != null)
-                {
-                    _tcpClient.Close();
-                    _tcpClient = null;
-                }
-
-                if (NetworkStream != null)
-                {
-                    NetworkStream.Dispose();
-                    NetworkStream = null;
-                }
-            }
+            disposable.Dispose();
         }
     }
 }

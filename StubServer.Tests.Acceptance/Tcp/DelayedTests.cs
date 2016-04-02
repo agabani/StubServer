@@ -13,7 +13,9 @@ namespace StubServer.Tests.Acceptance.Tcp
         public void Should_return_response_after_a_delayed_period()
         {
             // Arrange
-            TcpStubServer
+            var tcpStubServer = NewStubServer();
+
+            tcpStubServer
                 .Setup(bytes => true)
                 .Returns(async () =>
                 {
@@ -21,24 +23,34 @@ namespace StubServer.Tests.Acceptance.Tcp
                     return Encoding.UTF8.GetBytes("500ms");
                 });
 
+            var tcpClient = NewTcpClient();
+            var networkStream = tcpClient.GetStream();
+
             var stopwatch = new Stopwatch();
 
             // Act
             stopwatch.Start();
-            NetworkStream.Write(new[] { byte.MinValue, });
-            var read = NetworkStream.Read();
+            networkStream.Write(new[] {byte.MinValue});
+            var read = networkStream.Read();
             stopwatch.Stop();
 
             // Assert
             Assert.That(Encoding.UTF8.GetString(read), Is.EqualTo("500ms"));
             Assert.That(stopwatch.Elapsed, Is.GreaterThanOrEqualTo(TimeSpan.FromMilliseconds(500)));
+
+            // Cleanup
+            Cleanup(networkStream);
+            Cleanup(tcpClient);
+            Cleanup(tcpStubServer);
         }
 
         [Test]
         public void Should_timeout_client()
         {
             // Arrange
-            TcpStubServer
+            var tcpStubServer = NewStubServer();
+
+            tcpStubServer
                 .Setup(message => true)
                 .Returns(async () =>
                 {
@@ -46,13 +58,21 @@ namespace StubServer.Tests.Acceptance.Tcp
                     return Encoding.UTF8.GetBytes("2s");
                 });
 
-            NetworkStream.Write(new[] { byte.MinValue });
+            var tcpClient = NewTcpClient();
+            var networkStream = tcpClient.GetStream();
+
+            networkStream.Write(new[] {byte.MinValue});
 
             // Act
-            TestDelegate testDelegate = () => NetworkStream.Read();
+            TestDelegate testDelegate = () => networkStream.Read();
 
             // Assert
             Assert.Throws<IOException>(testDelegate);
+
+            // Cleanup
+            Cleanup(networkStream);
+            Cleanup(tcpClient);
+            Cleanup(tcpStubServer);
         }
     }
 }
