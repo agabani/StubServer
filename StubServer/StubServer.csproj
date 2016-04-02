@@ -47,7 +47,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="Tcp\ITcpStubServer.cs" />
-    <Compile Include="Tcp\StubTcpListener.cs" />
+    <Compile Include="Tcp\StubTcpListenerHandler.cs" />
     <Compile Include="Tcp\TcpStubServer.cs" />
     <Compile Include="Udp\IUdpStubServer.cs" />
     <Compile Include="Udp\StubUdpClientHandler.cs" />
