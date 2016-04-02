@@ -9,7 +9,7 @@ namespace StubServer.Tests.Acceptance.Tcp
     {
         protected ITcpStubServer NewStubServer()
         {
-            return new TcpStubServer(IPAddress.Loopback, 5053);
+            return new TcpStubServer(IPAddress.Loopback, 5050);
         }
 
         protected TcpClient NewTcpClient()
@@ -18,7 +18,7 @@ namespace StubServer.Tests.Acceptance.Tcp
             {
                 Client = {ReceiveTimeout = (int) TimeSpan.FromSeconds(1).TotalMilliseconds}
             };
-            tcpClient.Connect(new IPEndPoint(IPAddress.Loopback, 5053));
+            tcpClient.Connect(new IPEndPoint(IPAddress.Loopback, 5050));
             return tcpClient;
         }
 

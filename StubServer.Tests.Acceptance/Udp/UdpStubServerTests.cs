@@ -9,7 +9,7 @@ namespace StubServer.Tests.Acceptance.Udp
     {
         protected IUdpStubServer NewStubServer()
         {
-            return new UdpStubServer(IPAddress.Any, 5051);
+            return new UdpStubServer(IPAddress.Any, 5050);
         }
 
         protected UdpClient NewUdpClient()
@@ -18,7 +18,7 @@ namespace StubServer.Tests.Acceptance.Udp
             {
                 Client = {ReceiveTimeout = (int) TimeSpan.FromSeconds(1).TotalMilliseconds}
             };
-            udpClient.Connect(IPAddress.Loopback, 5051);
+            udpClient.Connect(IPAddress.Loopback, 5050);
             return udpClient;
         }
 
