@@ -9,35 +9,56 @@ namespace StubServer.Tests.Acceptance.Http
         [Test]
         public void Should_return_responses_in_order()
         {
-            HttpStubServer
+            // Arrange
+            var httpStubServer = NewStubServer();
+
+            httpStubServer
                 .Setup(message => true)
                 .Returns(() => new HttpResponseMessage(HttpStatusCode.OK))
                 .Returns(() => new HttpResponseMessage(HttpStatusCode.NotModified))
                 .Returns(() => new HttpResponseMessage(HttpStatusCode.ServiceUnavailable));
 
-            HttpResponseMessage = HttpClient
-                .SendAsync(HttpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/"))
+            var httpClient = NewHttpClient();
+
+            // Act & Assert & Cleanup
+            var httpResponseMessage = httpClient
+                .SendAsync(new HttpRequestMessage(HttpMethod.Get, "/"))
                 .GetAwaiter().GetResult();
 
-            Assert.That(HttpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
-            HttpResponseMessage = HttpClient
-                .SendAsync(HttpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/"))
+            Cleanup(httpResponseMessage);
+
+            // Act & Assert & Cleanup
+            httpResponseMessage = httpClient
+                .SendAsync(new HttpRequestMessage(HttpMethod.Get, "/"))
                 .GetAwaiter().GetResult();
 
-            Assert.That(HttpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.NotModified));
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.NotModified));
 
-            HttpResponseMessage = HttpClient
-                .SendAsync(HttpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/"))
+            Cleanup(httpResponseMessage);
+
+            // Act & Assert & Cleanup
+            httpResponseMessage = httpClient
+                .SendAsync(new HttpRequestMessage(HttpMethod.Get, "/"))
                 .GetAwaiter().GetResult();
 
-            Assert.That(HttpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.ServiceUnavailable));
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.ServiceUnavailable));
 
-            HttpResponseMessage = HttpClient
-                .SendAsync(HttpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/"))
+            Cleanup(httpResponseMessage);
+
+            // Act & Assert & Cleanup
+            httpResponseMessage = httpClient
+                .SendAsync(new HttpRequestMessage(HttpMethod.Get, "/"))
                 .GetAwaiter().GetResult();
 
-            Assert.That(HttpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.ServiceUnavailable));
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.ServiceUnavailable));
+
+            Cleanup(httpResponseMessage);
+
+            // Cleanup
+            Cleanup(httpClient);
+            Cleanup(httpStubServer);
         }
     }
 }

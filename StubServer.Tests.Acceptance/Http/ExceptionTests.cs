@@ -10,22 +10,37 @@ namespace StubServer.Tests.Acceptance.Http
         [Test]
         public void Should_return_stack_trace_on_setup_failure()
         {
-            HttpStubServer
+            // Arrange
+            var httpStubServer = NewStubServer();
+
+            httpStubServer
                 .Setup(message => ThrowException())
                 .Returns(() => new HttpResponseMessage(HttpStatusCode.OK));
 
-            HttpResponseMessage = HttpClient
-                .SendAsync(HttpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/"))
+            var httpClient = NewHttpClient();
+
+            // Act
+            var httpResponseMessage = httpClient
+                .SendAsync(new HttpRequestMessage(HttpMethod.Get, "/"))
                 .GetAwaiter().GetResult();
 
-            Assert.That(HttpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.InternalServerError));
-            Assert.That(HttpResponseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult(), Is.Not.Empty);
+            // Assert
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.InternalServerError));
+            Assert.That(httpResponseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult(), Is.Not.Empty);
+
+            // Cleanup
+            Cleanup(httpResponseMessage);
+            Cleanup(httpClient);
+            Cleanup(httpStubServer);
         }
 
         [Test]
         public void Should_return_stack_trace_on_return_failure()
         {
-            HttpStubServer
+            // Arrange
+            var httpStubServer = NewStubServer();
+
+            httpStubServer
                 .Setup(message => true)
                 .Returns(() =>
                 {
@@ -33,12 +48,21 @@ namespace StubServer.Tests.Acceptance.Http
                     return new HttpResponseMessage(HttpStatusCode.OK);
                 });
 
-            HttpResponseMessage = HttpClient
-                .SendAsync(HttpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/"))
+            var httpClient = NewHttpClient();
+
+            // Act
+            var httpResponseMessage = httpClient
+                .SendAsync(new HttpRequestMessage(HttpMethod.Get, "/"))
                 .GetAwaiter().GetResult();
 
-            Assert.That(HttpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.InternalServerError));
-            Assert.That(HttpResponseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult(), Is.Not.Empty);
+            // Assert
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.InternalServerError));
+            Assert.That(httpResponseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult(), Is.Not.Empty);
+
+            // Cleanup
+            Cleanup(httpResponseMessage);
+            Cleanup(httpClient);
+            Cleanup(httpStubServer);
         }
 
         private static bool ThrowException()

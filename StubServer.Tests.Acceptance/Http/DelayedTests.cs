@@ -12,7 +12,10 @@ namespace StubServer.Tests.Acceptance.Http
         [Test]
         public void Should_return_response_after_a_delayed_period()
         {
-            HttpStubServer
+            // Arrange
+            var httpStubServer = NewStubServer();
+
+            httpStubServer
                 .Setup(message => true)
                 .Returns(async () =>
                 {
@@ -22,20 +25,32 @@ namespace StubServer.Tests.Acceptance.Http
 
             var stopwatch = new Stopwatch();
 
+            var httpClient = NewHttpClient();
+
+            // Act
             stopwatch.Start();
-            HttpResponseMessage = HttpClient
-                .SendAsync(HttpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/"))
+            var httpResponseMessage = httpClient
+                .SendAsync(new HttpRequestMessage(HttpMethod.Get, "/"))
                 .GetAwaiter().GetResult();
             stopwatch.Stop();
 
-            Assert.That(HttpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            // Assert
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(stopwatch.Elapsed, Is.GreaterThanOrEqualTo(TimeSpan.FromMilliseconds(500)));
+
+            // Cleanup
+            Cleanup(httpResponseMessage);
+            Cleanup(httpClient);
+            Cleanup(httpStubServer);
         }
 
         [Test]
         public void Should_timeout_client()
         {
-            HttpStubServer
+            // Arrange
+            var httpStubServer = NewStubServer();
+
+            httpStubServer
                 .Setup(message => true)
                 .Returns(async () =>
                 {
@@ -43,11 +58,20 @@ namespace StubServer.Tests.Acceptance.Http
                     return new HttpResponseMessage(HttpStatusCode.OK);
                 });
 
-            TestDelegate testDelegate = () => HttpResponseMessage = HttpClient
-                .SendAsync(HttpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/"))
-                .GetAwaiter().GetResult();
+            var httpClient = NewHttpClient();
 
+
+            // Act
+            TestDelegate testDelegate = () => httpClient
+                .SendAsync(new HttpRequestMessage(HttpMethod.Get, "/"))
+                .GetAwaiter().GetResult().Dispose();
+
+            // Assert
             Assert.Throws<TaskCanceledException>(testDelegate);
+
+            // Cleanup
+            Cleanup(httpClient);
+            Cleanup(httpStubServer);
         }
     }
 }

@@ -11,21 +11,33 @@ namespace StubServer.Tests.Acceptance.Http
         [Test]
         public void Should_read_headers()
         {
+            // Arrange
             var token = Guid.NewGuid().ToString();
 
-            HttpStubServer
+            var httpStubServer = NewStubServer();
+
+            httpStubServer
                 .Setup(message => message.Headers.Authorization.Scheme == "Basic" &&
                                   message.Headers.Authorization.Parameter == token)
                 .Returns(() => new HttpResponseMessage(HttpStatusCode.Forbidden));
 
-            HttpResponseMessage = HttpClient
-                .SendAsync(HttpRequestMessage = new HttpRequestMessage(HttpMethod.Post, "/")
+            var httpClient = NewHttpClient();
+
+            // Act
+            var httpResponseMessage = httpClient
+                .SendAsync(new HttpRequestMessage(HttpMethod.Post, "/")
                 {
                     Headers = {Authorization = new AuthenticationHeaderValue("Basic", token)}
                 })
                 .GetAwaiter().GetResult();
 
-            Assert.That(HttpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
+            // Assert
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
+
+            // Cleanup
+            Cleanup(httpResponseMessage);
+            Cleanup(httpClient);
+            Cleanup(httpStubServer);
         }
     }
 }
