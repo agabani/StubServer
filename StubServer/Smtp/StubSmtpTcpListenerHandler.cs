@@ -4,15 +4,16 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 
-namespace StubServer.Tcp
+namespace StubServer.Smtp
 {
-    internal class StubTcpListenerHandler : TcpListener, IDisposable
+    internal class StubSmtpTcpListenerHandler : TcpListener, IDisposable
     {
         private readonly List<Setup<byte[], byte[]>> _setups = new List<Setup<byte[], byte[]>>();
 
-        internal StubTcpListenerHandler(IPEndPoint ipEndPoint) : base(ipEndPoint)
+        internal StubSmtpTcpListenerHandler(IPEndPoint ipEndPoint) : base(ipEndPoint)
         {
             Start();
             BeginAcceptTcpClient(RequestCallback, this);
@@ -33,16 +34,18 @@ namespace StubServer.Tcp
 
             var tcpClient = EndAcceptTcpClient(ar);
 
-            BeginAcceptTcpClient(RequestCallback, ar);
+            BeginAcceptTcpClient(RequestCallback, this);
 
             ProcessRequest(tcpClient);
         }
 
         private async void ProcessRequest(TcpClient tcpClient)
         {
-            using (tcpClient)
-            using (var networkStream = tcpClient.GetStream())
+            var networkStream = tcpClient.GetStream();
             {
+                var bytes = Encoding.UTF8.GetBytes("220 SMTP StubServer\r\n");
+                networkStream.Write(bytes, 0, bytes.Length);
+
                 var buffer = new byte[8192];
 
                 do
@@ -50,6 +53,11 @@ namespace StubServer.Tcp
                     var request = buffer
                         .Take(networkStream.Read(buffer, 0, buffer.Length))
                         .ToArray();
+
+                    if (request.Length == 0)
+                    {
+                        return;
+                    }
 
                     foreach (var setup in _setups)
                     {
