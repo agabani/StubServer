@@ -1,21 +1,22 @@
 using System;
 using System.Linq.Expressions;
 using System.Net;
+using System.Net.Sockets;
 
 namespace StubServer.Smtp
 {
     public class SmtpStubServer : ISmtpStubServer
     {
-        private StubSmtpTcpListenerHandler _stubTcpListenerHandler;
+        private StubSmtpHandler _stubSmtpHandler;
 
         public SmtpStubServer(IPAddress ipAddress, int port)
         {
-            _stubTcpListenerHandler = new StubSmtpTcpListenerHandler(new IPEndPoint(ipAddress, port));
+            _stubSmtpHandler = new StubSmtpHandler(new TcpListener(ipAddress, port));
         }
 
         public ISetup<byte[]> Setup(Expression<Func<byte[], bool>> expression)
         {
-            return _stubTcpListenerHandler.AddSetup(expression);
+            return _stubSmtpHandler.AddSetup(expression);
         }
 
         public void Dispose()
@@ -28,10 +29,10 @@ namespace StubServer.Smtp
         {
             if (disposing)
             {
-                if (_stubTcpListenerHandler != null)
+                if (_stubSmtpHandler != null)
                 {
-                    _stubTcpListenerHandler.Dispose();
-                    _stubTcpListenerHandler = null;
+                    _stubSmtpHandler.Dispose();
+                    _stubSmtpHandler = null;
                 }
             }
         }

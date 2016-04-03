@@ -48,7 +48,9 @@
     <Compile Include="Setup.cs" />
     <Compile Include="Smtp\ISmtpStubServer.cs" />
     <Compile Include="Smtp\SmtpStubServer.cs" />
-    <Compile Include="Smtp\StubSmtpTcpListenerHandler.cs" />
+    <Compile Include="Smtp\StateObjects\SocketStateObject.cs" />
+    <Compile Include="Smtp\StubSmtpHandler.cs" />
+    <Compile Include="Smtp\StateObjects\TcpListenerStateObject.cs" />
     <Compile Include="Tcp\ITcpStubServer.cs" />
     <Compile Include="Tcp\StubTcpListenerHandler.cs" />
     <Compile Include="Tcp\TcpStubServer.cs" />
