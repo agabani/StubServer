@@ -57,6 +57,7 @@
     <Compile Include="Http\StatusCodeTests.cs" />
     <Compile Include="Http\MethodTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Smtp\SampleTests.cs" />
     <Compile Include="Smtp\SendingTests.cs" />
     <Compile Include="Smtp\SmtpStubServerTests.cs" />
     <Compile Include="Tcp\ConcurrentClientsTests.cs" />
