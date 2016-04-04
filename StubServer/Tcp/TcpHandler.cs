@@ -47,6 +47,11 @@ namespace StubServer.Tcp
                             .ConfigureAwait(false))
                         .ToArray();
 
+                    if (request.Length == 0)
+                    {
+                        return;
+                    }
+
                     foreach (var setup in _setups)
                     {
                         var result = await setup
