@@ -7,16 +7,16 @@ namespace StubServer.Smtp
 {
     public class SmtpStubServer : ISmtpStubServer
     {
-        private StubSmtpHandler _stubSmtpHandler;
+        private SmtpHandler _smtpHandler;
 
         public SmtpStubServer(IPAddress ipAddress, int port)
         {
-            _stubSmtpHandler = new StubSmtpHandler(new TcpListener(ipAddress, port));
+            _smtpHandler = new SmtpHandler(new TcpListener(ipAddress, port));
         }
 
         public ISetup<byte[]> Setup(Expression<Func<byte[], bool>> expression)
         {
-            return _stubSmtpHandler.AddSetup(expression);
+            return _smtpHandler.AddSetup(expression);
         }
 
         public void Dispose()
@@ -29,10 +29,10 @@ namespace StubServer.Smtp
         {
             if (disposing)
             {
-                if (_stubSmtpHandler != null)
+                if (_smtpHandler != null)
                 {
-                    _stubSmtpHandler.Dispose();
-                    _stubSmtpHandler = null;
+                    _smtpHandler.Dispose();
+                    _smtpHandler = null;
                 }
             }
         }

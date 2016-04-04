@@ -47,10 +47,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="Smtp\ISmtpStubServer.cs" />
+    <Compile Include="Smtp\SmtpHandler.cs" />
     <Compile Include="Smtp\SmtpStubServer.cs" />
-    <Compile Include="Smtp\StateObjects\SocketStateObject.cs" />
-    <Compile Include="Smtp\StubSmtpHandler.cs" />
-    <Compile Include="Smtp\StateObjects\TcpListenerStateObject.cs" />
     <Compile Include="Tcp\ITcpStubServer.cs" />
     <Compile Include="Tcp\TcpHandler.cs" />
     <Compile Include="Tcp\TcpStubServer.cs" />
