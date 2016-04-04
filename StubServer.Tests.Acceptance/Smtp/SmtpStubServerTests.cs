@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 using StubServer.Smtp;
 
 namespace StubServer.Tests.Acceptance.Smtp
@@ -9,7 +10,7 @@ namespace StubServer.Tests.Acceptance.Smtp
     {
         protected ISmtpStubServer NewStubServer()
         {
-            return new SmtpStubServer(IPAddress.Loopback, 5050);
+            return new SmtpStubServer(IPAddress.Loopback, 5050, () => Encoding.ASCII.GetBytes("220 SMTP StubServer\r\n"));
         }
 
         protected SmtpClient NewSmtpClient()

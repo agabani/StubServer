@@ -6,7 +6,7 @@
 
 > Can be as simple as you want... Or as complex...
 
-[![NuGet downloads](https://img.shields.io/badge/nuget-v0.1.6-blue.svg)](https://www.nuget.org/packages/StubServer)
+[![NuGet downloads](https://img.shields.io/badge/nuget-v0.1.6.1-blue.svg)](https://www.nuget.org/packages/StubServer)
 
 Checkout the [Wiki](https://github.com/agabani/StubServer/wiki) for more examples!
 
@@ -94,35 +94,36 @@ udpClient.Close();
 ### Example SMTP StubServer
 ```csharp
 // Arrange
-ISmtpStubServer smtpStubServer = new SmtpStubServer(IPAddress.Loopback, 5000);
+ISmtpStubServer smtpStubServer = new SmtpStubServer(IPAddress.Loopback, 5000,
+	() => Encoding.ASCII.GetBytes("220 SMTP StubServer\r\n"));
 
 smtpStubServer
-	.Setup(bytes => Encoding.UTF8.GetString(bytes).StartsWith("EHLO"))
-	.Returns(() => Encoding.UTF8.GetBytes(
+	.Setup(bytes => Encoding.ASCII.GetString(bytes).StartsWith("EHLO"))
+	.Returns(() => Encoding.ASCII.GetBytes(
 		"250-smtp.example.com Hello www.example.org [123.0.0.321]\r\n" +
 		"250-SIZE 14680064\r\n" +
 		"250-PIPELINING\r\n" +
 		"250 HELP\r\n"));
 
 smtpStubServer
-	.Setup(bytes => Encoding.UTF8.GetString(bytes).Equals("MAIL FROM:<jane@contoso.com>\r\n"))
-	.Returns(() => Encoding.UTF8.GetBytes("250 Ok\r\n"));
+	.Setup(bytes => Encoding.ASCII.GetString(bytes).Equals("MAIL FROM:<jane@contoso.com>\r\n"))
+	.Returns(() => Encoding.ASCII.GetBytes("250 Ok\r\n"));
 
 smtpStubServer
-	.Setup(bytes => Encoding.UTF8.GetString(bytes).Equals("RCPT TO:<ben@contoso.com>\r\n"))
-	.Returns(() => Encoding.UTF8.GetBytes("250 Ok\r\n"));
+	.Setup(bytes => Encoding.ASCII.GetString(bytes).Equals("RCPT TO:<ben@contoso.com>\r\n"))
+	.Returns(() => Encoding.ASCII.GetBytes("250 Ok\r\n"));
 
 smtpStubServer
-	.Setup(bytes => Encoding.UTF8.GetString(bytes).Equals("DATA\r\n"))
-	.Returns(() => Encoding.UTF8.GetBytes("354 End data with <CR><LF>.<CR><LF>\r\n"));
+	.Setup(bytes => Encoding.ASCII.GetString(bytes).Equals("DATA\r\n"))
+	.Returns(() => Encoding.ASCII.GetBytes("354 End data with <CR><LF>.<CR><LF>\r\n"));
 
 smtpStubServer
-	.Setup(bytes => Encoding.UTF8.GetString(bytes).Contains("\r\n.\r\n"))
-	.Returns(() => Encoding.UTF8.GetBytes("250 Ok: queued as 12345\r\n"));
+	.Setup(bytes => Encoding.ASCII.GetString(bytes).Contains("\r\n.\r\n"))
+	.Returns(() => Encoding.ASCII.GetBytes("250 Ok: queued as 12345\r\n"));
 
 smtpStubServer
-	.Setup(bytes => Encoding.UTF8.GetString(bytes).Equals("QUIT\r\n"))
-	.Returns(() => Encoding.UTF8.GetBytes("221 Bye\r\n"));
+	.Setup(bytes => Encoding.ASCII.GetString(bytes).Equals("QUIT\r\n"))
+	.Returns(() => Encoding.ASCII.GetBytes("221 Bye\r\n"));
 
 var smtpClient = new SmtpClient("127.0.0.1", 5000);
 

@@ -2,6 +2,8 @@ using System;
 using System.Linq.Expressions;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace StubServer.Smtp
 {
@@ -9,9 +11,19 @@ namespace StubServer.Smtp
     {
         private SmtpHandler _smtpHandler;
 
-        public SmtpStubServer(IPAddress ipAddress, int port)
+        public SmtpStubServer(IPAddress ipAddress, int port, Func<byte[]> initialResponse)
+            : this(ipAddress, port, token => Task.FromResult(initialResponse()))
         {
-            _smtpHandler = new SmtpHandler(new TcpListener(ipAddress, port));
+        }
+
+        public SmtpStubServer(IPAddress ipAddress, int port, Func<Task<byte[]>> initialResponse)
+            : this(ipAddress, port, token => initialResponse())
+        {
+        }
+
+        public SmtpStubServer(IPAddress ipAddress, int port, Func<CancellationToken, Task<byte[]>> initialResponse)
+        {
+            _smtpHandler = new SmtpHandler(new TcpListener(ipAddress, port), initialResponse);
         }
 
         public ISetup<byte[]> Setup(Expression<Func<byte[], bool>> expression)

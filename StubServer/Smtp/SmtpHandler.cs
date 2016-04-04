@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace StubServer.Smtp
 {
@@ -13,10 +14,12 @@ namespace StubServer.Smtp
         private readonly List<Setup<byte[], byte[]>> _setups = new List<Setup<byte[], byte[]>>();
         private bool _disposed;
         private TcpListener _tcpListener;
+        private readonly Func<CancellationToken, Task<byte[]>> _initialResponse;
 
-        public SmtpHandler(TcpListener tcpListener)
+        public SmtpHandler(TcpListener tcpListener, Func<CancellationToken, Task<byte[]>> initialResponse)
         {
             _tcpListener = tcpListener;
+            _initialResponse = initialResponse;
             _tcpListener.Start();
             HandleIncomingClients();
         }
@@ -44,7 +47,9 @@ namespace StubServer.Smtp
             using (tcpClient)
             using (var networkStream = tcpClient.GetStream())
             {
-                var bytes = Encoding.UTF8.GetBytes("220 SMTP StubServer\r\n");
+                var bytes = await _initialResponse(CancellationToken.None)
+                    .ConfigureAwait(false);
+
                 await networkStream
                     .WriteAsync(bytes, 0, bytes.Length)
                     .ConfigureAwait(false);
