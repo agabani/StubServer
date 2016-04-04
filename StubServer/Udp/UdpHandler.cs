@@ -33,11 +33,16 @@ namespace StubServer.Udp
 
                 foreach (var setup in _setups)
                 {
-                    var result = await setup.Result(udpReceiveResult.Buffer, CancellationToken.None);
+                    var result = await setup
+                        .Result(udpReceiveResult.Buffer, CancellationToken.None)
+                        .ConfigureAwait(false);
 
                     if (result != null)
                     {
-                        await _udpClient.SendAsync(result, result.Length, udpReceiveResult.RemoteEndPoint);
+                        await _udpClient
+                            .SendAsync(result, result.Length, udpReceiveResult.RemoteEndPoint)
+                            .ConfigureAwait(false);
+
                         break;
                     }
                 }

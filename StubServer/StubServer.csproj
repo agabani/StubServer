@@ -52,7 +52,7 @@
     <Compile Include="Smtp\StubSmtpHandler.cs" />
     <Compile Include="Smtp\StateObjects\TcpListenerStateObject.cs" />
     <Compile Include="Tcp\ITcpStubServer.cs" />
-    <Compile Include="Tcp\StubTcpListenerHandler.cs" />
+    <Compile Include="Tcp\TcpHandler.cs" />
     <Compile Include="Tcp\TcpStubServer.cs" />
     <Compile Include="Udp\IUdpStubServer.cs" />
     <Compile Include="Udp\UdpHandler.cs" />
