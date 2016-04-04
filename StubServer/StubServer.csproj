@@ -55,7 +55,7 @@
     <Compile Include="Tcp\StubTcpListenerHandler.cs" />
     <Compile Include="Tcp\TcpStubServer.cs" />
     <Compile Include="Udp\IUdpStubServer.cs" />
-    <Compile Include="Udp\StubUdpClientHandler.cs" />
+    <Compile Include="Udp\UdpHandler.cs" />
     <Compile Include="Udp\UdpStubServer.cs" />
   </ItemGroup>
   <ItemGroup />

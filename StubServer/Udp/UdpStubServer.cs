@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Net;
+using System.Net.Sockets;
 
 namespace StubServer.Udp
 {
     public class UdpStubServer : IUdpStubServer
     {
-        private StubUdpClientHandler _stubUdpClientHandler;
+        private UdpHandler _udpHandler;
 
         public UdpStubServer(IPAddress ipAddress, int port)
         {
-            _stubUdpClientHandler = new StubUdpClientHandler(new IPEndPoint(ipAddress, port));
+            _udpHandler = new UdpHandler(new UdpClient(new IPEndPoint(ipAddress, port)));
         }
 
         public ISetup<byte[]> Setup(Expression<Func<byte[], bool>> expression)
         {
-            return _stubUdpClientHandler.AddSetup(expression);
+            return _udpHandler.AddSetup(expression);
         }
 
         public void Dispose()
@@ -28,10 +29,10 @@ namespace StubServer.Udp
         {
             if (disposing)
             {
-                if (_stubUdpClientHandler != null)
+                if (_udpHandler != null)
                 {
-                    _stubUdpClientHandler.Close();
-                    _stubUdpClientHandler = null;
+                    _udpHandler.Dispose();
+                    _udpHandler = null;
                 }
             }
         }
