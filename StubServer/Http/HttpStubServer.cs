@@ -9,21 +9,21 @@ namespace StubServer.Http
     public class HttpStubServer : IHttpStubServer
     {
         private HttpSelfHostServer _httpSelfHostServer;
-        private StubHttpMessageHandler _stubHttpMessageHandler;
+        private HttpHandler _httpHandler;
 
         public HttpStubServer(Uri baseAddress)
         {
             _httpSelfHostServer = new HttpSelfHostServer(new HttpSelfHostConfiguration(baseAddress)
             {
                 HostNameComparisonMode = HostNameComparisonMode.Exact
-            }, _stubHttpMessageHandler = new StubHttpMessageHandler());
+            }, _httpHandler = new HttpHandler());
 
             _httpSelfHostServer.OpenAsync().Wait();
         }
 
         public ISetup<HttpResponseMessage> Setup(Expression<Func<HttpRequestMessage, bool>> expression)
         {
-            return _stubHttpMessageHandler.AddSetup(expression);
+            return _httpHandler.AddSetup(expression);
         }
 
         public void Dispose()
@@ -43,10 +43,10 @@ namespace StubServer.Http
                     _httpSelfHostServer = null;
                 }
 
-                if (_stubHttpMessageHandler != null)
+                if (_httpHandler != null)
                 {
-                    _stubHttpMessageHandler.Dispose();
-                    _stubHttpMessageHandler = null;
+                    _httpHandler.Dispose();
+                    _httpHandler = null;
                 }
             }
         }

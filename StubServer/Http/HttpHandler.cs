@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StubServer.Http
 {
-    internal class StubHttpMessageHandler : HttpMessageHandler
+    internal class HttpHandler : HttpMessageHandler
     {
         private readonly List<Setup<HttpRequestMessage, HttpResponseMessage>> _setups = new List<Setup<HttpRequestMessage, HttpResponseMessage>>();
 
@@ -16,7 +16,9 @@ namespace StubServer.Http
         {
             foreach (var setup in _setups)
             {
-                var httpResponseMessage = await setup.Result(request, cancellationToken);
+                var httpResponseMessage = await setup
+                    .Result(request, cancellationToken)
+                    .ConfigureAwait(false);
 
                 if (httpResponseMessage != null)
                 {
@@ -29,9 +31,9 @@ namespace StubServer.Http
 
         internal ISetup<HttpResponseMessage> AddSetup(Expression<Func<HttpRequestMessage, bool>> expression)
         {
-            Setup<HttpRequestMessage, HttpResponseMessage> httpSetup;
-            _setups.Add(httpSetup = new Setup<HttpRequestMessage, HttpResponseMessage>(expression));
-            return httpSetup;
+            Setup<HttpRequestMessage, HttpResponseMessage> setup;
+            _setups.Add(setup = new Setup<HttpRequestMessage, HttpResponseMessage>(expression));
+            return setup;
         }
     }
 }
