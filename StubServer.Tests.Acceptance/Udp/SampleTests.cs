@@ -109,6 +109,43 @@ namespace StubServer.Tests.Acceptance.Udp
         }
 
         [Test]
+        public void MultipleResponse()
+        {
+            // Arrange
+            var udpStubServer = new UdpStubServer(IPAddress.Any, 5000);
+
+            udpStubServer
+                .When(bytes => Encoding.UTF8.GetString(bytes).Equals("Hi!"))
+                .Return(() => Encoding.UTF8.GetBytes("Hello, John!"))
+                .Then(() => Encoding.UTF8.GetBytes("Hello, Tom!"))
+                .Then(() => Encoding.UTF8.GetBytes("Hello, Ben!"));
+
+            var udpClient = new UdpClient();
+            udpClient.Connect(IPAddress.Loopback, 5000);
+
+            var message = Encoding.UTF8.GetBytes("Hi!");
+
+            var ipEndPoint = new IPEndPoint(IPAddress.Any, 0);
+
+            // Act 
+            udpClient.Send(message, message.Length);
+
+            // Assert
+            var result = Encoding.UTF8.GetString(udpClient.Receive(ref ipEndPoint));
+            Assert.That(result, Is.EqualTo("Hello, John!"));
+
+            result = Encoding.UTF8.GetString(udpClient.Receive(ref ipEndPoint));
+            Assert.That(result, Is.EqualTo("Hello, Tom!"));
+
+            result = Encoding.UTF8.GetString(udpClient.Receive(ref ipEndPoint));
+            Assert.That(result, Is.EqualTo("Hello, Ben!"));
+
+            // Cleanup
+            udpStubServer.Dispose();
+            udpClient.Close();
+        }
+
+        [Test]
         public void AsyncTests()
         {
             // Arrange

@@ -119,6 +119,46 @@ namespace StubServer.Tests.Acceptance.Tcp
         }
 
         [Test]
+        public void MultipleResponses()
+        {
+            // Arrange
+            var tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
+
+            tcpStubServer
+                .When(bytes => Encoding.UTF8.GetString(bytes).Equals("Hi!"))
+                .Return(() => Encoding.UTF8.GetBytes("Hello, John!"))
+                .Then(() => Encoding.UTF8.GetBytes("Hello, Tom!"))
+                .Then(() => Encoding.UTF8.GetBytes("Hello, Ben!"));
+
+            var tcpClient = new TcpClient();
+            tcpClient.Connect(IPAddress.Loopback, 5000);
+
+            var networkStream = tcpClient.GetStream();
+
+            var message = Encoding.UTF8.GetBytes("Hi!");
+
+            var buffer = new byte[8192];
+
+            // Act
+            networkStream.Write(message, 0, message.Length);
+
+            // Assert
+            var read = networkStream.Read(buffer, 0, buffer.Length);
+            Assert.That(Encoding.UTF8.GetString(buffer, 0, read), Is.EqualTo("Hello, John!"));
+
+            read = networkStream.Read(buffer, 0, buffer.Length);
+            Assert.That(Encoding.UTF8.GetString(buffer, 0, read), Is.EqualTo("Hello, Tom!"));
+
+            read = networkStream.Read(buffer, 0, buffer.Length);
+            Assert.That(Encoding.UTF8.GetString(buffer, 0, read), Is.EqualTo("Hello, Ben!"));
+
+            // Cleanup
+            networkStream.Dispose();
+            tcpClient.Close();
+            tcpStubServer.Dispose();
+        }
+
+        [Test]
         public void AsyncTests()
         {
             // Arrange
