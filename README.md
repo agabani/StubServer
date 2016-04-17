@@ -13,7 +13,7 @@ Checkout the [Wiki](https://github.com/agabani/StubServer/wiki) for more example
 ### Example HTTP StubServer
 ```csharp
 // Arrange
-IHttpStubServer httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
+var httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
 
 httpStubServer
 	.When(message => message.RequestUri.PathAndQuery.Equals("/JohnSmith"))
@@ -35,7 +35,7 @@ httpStubServer.Dispose();
 ### Example TCP StubServer
 ```csharp
 // Arrange
-ITcpStubServer tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
+var tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
 
 tcpStubServer
 	.When(bytes => Encoding.UTF8.GetString(bytes).Equals("Hi!"))
@@ -66,7 +66,7 @@ tcpStubServer.Dispose();
 ### Example UDP StubServer
 ```csharp
 // Arrange
-IUdpStubServer udpStubServer = new UdpStubServer(IPAddress.Any, 5000);
+var udpStubServer = new UdpStubServer(IPAddress.Any, 5000);
 
 udpStubServer
 	.When(bytes => Encoding.UTF8.GetString(bytes).Equals("Hi!"))
@@ -94,7 +94,7 @@ udpClient.Close();
 ### Example SMTP StubServer
 ```csharp
 // Arrange
-ISmtpStubServer smtpStubServer = new SmtpStubServer(IPAddress.Loopback, 5000,
+var smtpStubServer = new SmtpStubServer(IPAddress.Loopback, 5000,
 	() => Encoding.ASCII.GetBytes("220 SMTP StubServer\r\n"));
 
 smtpStubServer
