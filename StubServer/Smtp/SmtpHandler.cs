@@ -10,15 +10,15 @@ namespace StubServer.Smtp
 {
     internal class SmtpHandler : IDisposable
     {
-        private readonly Func<CancellationToken, Task<byte[]>> _initialResponse;
+        private readonly IEnumerable<Func<CancellationToken, Task<byte[]>>> _initialResponses;
         private readonly List<Setup<byte[], byte[]>> _setups = new List<Setup<byte[], byte[]>>();
         private bool _disposed;
         private TcpListener _tcpListener;
 
-        internal SmtpHandler(TcpListener tcpListener, Func<CancellationToken, Task<byte[]>> initialResponse)
+        internal SmtpHandler(TcpListener tcpListener, IEnumerable<Func<CancellationToken, Task<byte[]>>> initialResponses)
         {
             _tcpListener = tcpListener;
-            _initialResponse = initialResponse;
+            _initialResponses = initialResponses;
             _tcpListener.Start();
             HandleIncomingClients();
         }
@@ -46,12 +46,15 @@ namespace StubServer.Smtp
             using (tcpClient)
             using (var networkStream = tcpClient.GetStream())
             {
-                var bytes = await _initialResponse(CancellationToken.None)
+                foreach (var initalResponse in _initialResponses)
+                {
+                    var bytes = await initalResponse(CancellationToken.None)
                     .ConfigureAwait(false);
 
-                await networkStream
-                    .WriteAsync(bytes, 0, bytes.Length)
-                    .ConfigureAwait(false);
+                    await networkStream
+                        .WriteAsync(bytes, 0, bytes.Length)
+                        .ConfigureAwait(false);
+                }
 
                 var buffer = new byte[8192];
 

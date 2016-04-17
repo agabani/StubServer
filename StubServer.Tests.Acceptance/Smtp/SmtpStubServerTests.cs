@@ -2,6 +2,8 @@ using System;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using StubServer.Smtp;
 
 namespace StubServer.Tests.Acceptance.Smtp
@@ -10,7 +12,10 @@ namespace StubServer.Tests.Acceptance.Smtp
     {
         protected SmtpStubServer NewStubServer()
         {
-            return new SmtpStubServer(IPAddress.Loopback, 5050, () => Encoding.ASCII.GetBytes("220 SMTP StubServer\r\n"));
+            return new SmtpStubServer(IPAddress.Loopback, 5050, new Func<CancellationToken, Task<byte[]>>[]
+            {
+                token => Task.FromResult(Encoding.ASCII.GetBytes("220 SMTP StubServer\r\n"))
+            });
         }
 
         protected SmtpClient NewSmtpClient()
