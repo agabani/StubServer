@@ -14,7 +14,7 @@ namespace StubServer.Tcp
             _tcpHandler = new TcpHandler(new TcpListener(new IPEndPoint(ipAddress, port)));
         }
 
-        public IResponse<byte[]> Setup(Expression<Func<byte[], bool>> expression)
+        public ISingleReturns<byte[]> Setup(Expression<Func<byte[], bool>> expression)
         {
             return _tcpHandler.AddSetup(expression);
         }

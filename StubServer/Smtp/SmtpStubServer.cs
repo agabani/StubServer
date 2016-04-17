@@ -26,7 +26,7 @@ namespace StubServer.Smtp
             _smtpHandler = new SmtpHandler(new TcpListener(ipAddress, port), initialResponse);
         }
 
-        public IResponse<byte[]> Setup(Expression<Func<byte[], bool>> expression)
+        public ISingleReturns<byte[]> Setup(Expression<Func<byte[], bool>> expression)
         {
             return _smtpHandler.AddSetup(expression);
         }

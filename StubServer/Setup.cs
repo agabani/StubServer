@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StubServer
 {
-    public class Setup<TRequest, TResponse> : IMultipleResponse<TResponse>
+    public partial class Setup<TRequest, TResponse>
     {
         private readonly Func<TRequest, bool> _expression;
 
@@ -19,51 +19,6 @@ namespace StubServer
         internal Setup(Expression<Func<TRequest, bool>> expression)
         {
             _expression = expression.Compile();
-        }
-
-        public IResponse<TResponse> Returns(Func<TResponse> response)
-        {
-            _responses.Enqueue(new List<Func<CancellationToken, Task<TResponse>>>
-            {
-                cancellationToken => Task.FromResult(response())
-            });
-            return this;
-        }
-
-        public IResponse<TResponse> Returns(Func<Task<TResponse>> response)
-        {
-            _responses.Enqueue(new List<Func<CancellationToken, Task<TResponse>>>
-            {
-                cancellationToken => response()
-            });
-            return this;
-        }
-
-        public IResponse<TResponse> Returns(Func<CancellationToken, Task<TResponse>> response)
-        {
-            _responses.Enqueue(new List<Func<CancellationToken, Task<TResponse>>>
-            {
-                response
-            });
-            return this;
-        }
-
-        public IMultipleResponse<TResponse> Then(Func<TResponse> response)
-        {
-            _responses.Last().Add(cancellationToken => Task.FromResult(response()));
-            return this;
-        }
-
-        public IMultipleResponse<TResponse> Then(Func<Task<TResponse>> response)
-        {
-            _responses.Last().Add(cancellationToken => response());
-            return this;
-        }
-
-        public IMultipleResponse<TResponse> Then(Func<CancellationToken, Task<TResponse>> response)
-        {
-            _responses.Last().Add(response);
-            return this;
         }
 
         internal Task<TResponse> Result(TRequest request, CancellationToken cancellationToken)
@@ -82,6 +37,73 @@ namespace StubServer
                     ? (_response = _responses.Dequeue()).Select(func => func(cancellationToken))
                     : _response.Select(func => func(cancellationToken))
                 : default(List<Task<TResponse>>);
+        }
+    }
+
+    public partial class Setup<TRequest, TResponse> : ISingleReturns<TResponse>
+    {
+        public ISingleReturns<TResponse> Returns(Func<TResponse> response)
+        {
+            _responses.Enqueue(new List<Func<CancellationToken, Task<TResponse>>>
+            {
+                cancellationToken => Task.FromResult(response())
+            });
+            return this;
+        }
+
+        public ISingleReturns<TResponse> Returns(Func<Task<TResponse>> response)
+        {
+            _responses.Enqueue(new List<Func<CancellationToken, Task<TResponse>>>
+            {
+                cancellationToken => response()
+            });
+            return this;
+        }
+
+        public ISingleReturns<TResponse> Returns(Func<CancellationToken, Task<TResponse>> response)
+        {
+            _responses.Enqueue(new List<Func<CancellationToken, Task<TResponse>>>
+            {
+                response
+            });
+            return this;
+        }
+    }
+
+    public partial class Setup<TRequest, TResponse> : IMultipleReturns<TResponse>
+    {
+        IMultipleReturns<TResponse> IMultipleReturns<TResponse>.Returns(Func<TResponse> response)
+        {
+            return (IMultipleReturns<TResponse>) Returns(response);
+        }
+
+        IMultipleReturns<TResponse> IMultipleReturns<TResponse>.Returns(Func<Task<TResponse>> response)
+        {
+            return (IMultipleReturns<TResponse>) Returns(response);
+        }
+
+        IMultipleReturns<TResponse> IMultipleReturns<TResponse>.Returns(
+            Func<CancellationToken, Task<TResponse>> response)
+        {
+            return (IMultipleReturns<TResponse>) Returns(response);
+        }
+
+        public IMultipleReturns<TResponse> Then(Func<TResponse> response)
+        {
+            _responses.Last().Add(cancellationToken => Task.FromResult(response()));
+            return this;
+        }
+
+        public IMultipleReturns<TResponse> Then(Func<Task<TResponse>> response)
+        {
+            _responses.Last().Add(cancellationToken => response());
+            return this;
+        }
+
+        public IMultipleReturns<TResponse> Then(Func<CancellationToken, Task<TResponse>> response)
+        {
+            _responses.Last().Add(response);
+            return this;
         }
     }
 }

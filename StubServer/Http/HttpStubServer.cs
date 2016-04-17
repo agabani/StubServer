@@ -21,7 +21,7 @@ namespace StubServer.Http
             _httpSelfHostServer.OpenAsync().Wait();
         }
 
-        public IResponse<HttpResponseMessage> Setup(Expression<Func<HttpRequestMessage, bool>> expression)
+        public ISingleReturns<HttpResponseMessage> Setup(Expression<Func<HttpRequestMessage, bool>> expression)
         {
             return _httpHandler.AddSetup(expression);
         }
