@@ -68,8 +68,7 @@ namespace StubServer.Tests.Acceptance.Http
                                       .Equals("application/x-www-form-urlencoded") &&
                                   message.Content.ReadAsStringAsync()
                                       .GetAwaiter().GetResult()
-                                      .Equals(
-                                          "email=JohnSmith%40example.com&password=P%40ssword1&confirmPassword=P%40ssword1"))
+                                      .Equals("email=JohnSmith%40example.com&password=P%40ssword1&confirmPassword=P%40ssword1"))
                 .Return(() => new HttpResponseMessage(HttpStatusCode.Created)
                 {
                     Headers = {Location = new Uri("http://location:5000/account/1")}
