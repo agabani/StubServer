@@ -90,18 +90,33 @@ namespace StubServer
 
         public IMultipleReturns<TResponse> Then(Func<TResponse> response)
         {
+            if (!_responses.Any())
+            {
+                throw new InvalidOperationException(Literals.NoReturnsHaveBeenConfigured);
+            }
+
             _responses.Last().Add(cancellationToken => Task.FromResult(response()));
             return this;
         }
 
         public IMultipleReturns<TResponse> Then(Func<Task<TResponse>> response)
         {
+            if (!_responses.Any())
+            {
+                throw new InvalidOperationException(Literals.NoReturnsHaveBeenConfigured);
+            }
+
             _responses.Last().Add(cancellationToken => response());
             return this;
         }
 
         public IMultipleReturns<TResponse> Then(Func<CancellationToken, Task<TResponse>> response)
         {
+            if (!_responses.Any())
+            {
+                throw new InvalidOperationException(Literals.NoReturnsHaveBeenConfigured);
+            }
+
             _responses.Last().Add(response);
             return this;
         }
