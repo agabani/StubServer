@@ -99,7 +99,7 @@ ISmtpStubServer smtpStubServer = new SmtpStubServer(IPAddress.Loopback, 5000,
 
 smtpStubServer
 	.When(bytes => Encoding.ASCII.GetString(bytes).StartsWith("EHLO"))
-	.Return(() => Encoding.ASCII.GetBytes(
+	.Return(() => Encoding.ASCII.GetBytes("250-smtp.example.com Hello www.example.org [123.0.0.321]\r\n"))
 	.Then(() => Encoding.ASCII.GetBytes("250-SIZE 14680064\r\n"))
 	.Then(() => Encoding.ASCII.GetBytes("250-PIPELINING\r\n"))
 	.Then(() => Encoding.ASCII.GetBytes("250 HELP\r\n"));
