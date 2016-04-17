@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Http\ChainedTests.cs" />
+    <Compile Include="Http\ClashingSetupTests.cs" />
     <Compile Include="Http\ContentTests.cs" />
     <Compile Include="Http\DelayedTests.cs" />
     <Compile Include="Http\ExceptionTests.cs" />
@@ -58,12 +59,14 @@
     <Compile Include="Http\MethodTests.cs" />
     <Compile Include="Http\ObsoleteTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Smtp\ClashingSetupTests.cs" />
     <Compile Include="Smtp\MultipleInitializationTests.cs" />
     <Compile Include="Smtp\ObsoleteTests.cs" />
     <Compile Include="Smtp\SampleTests.cs" />
     <Compile Include="Smtp\SendingTests.cs" />
     <Compile Include="Smtp\SingleInitializationTests.cs" />
     <Compile Include="Smtp\SmtpStubServerTests.cs" />
+    <Compile Include="Tcp\ClashingSetupTests.cs" />
     <Compile Include="Tcp\ConcurrentClientsTests.cs" />
     <Compile Include="Tcp\DelayedTests.cs" />
     <Compile Include="Tcp\ChainedReturnTests.cs" />
@@ -75,6 +78,7 @@
     <Compile Include="Tcp\SampleTests.cs" />
     <Compile Include="Tcp\SingleReturnTests.cs" />
     <Compile Include="Tcp\TcpStubServerTests.cs" />
+    <Compile Include="Udp\ClashingSetupTests.cs" />
     <Compile Include="Udp\ConcurrentClientsTests.cs" />
     <Compile Include="Udp\DelayedTests.cs" />
     <Compile Include="Udp\ChainedReturnTests.cs" />
