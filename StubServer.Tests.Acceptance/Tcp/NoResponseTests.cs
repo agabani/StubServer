@@ -13,8 +13,8 @@ namespace StubServer.Tests.Acceptance.Tcp
             var tcpStubServer = NewStubServer();
 
             tcpStubServer
-                .Setup(message => false)
-                .Returns(() => Encoding.UTF8.GetBytes("Not Setup"));
+                .When(message => false)
+                .Return(() => Encoding.UTF8.GetBytes("Not Setup"));
 
             var tcpClient = NewTcpClient();
             var networkStream = tcpClient.GetStream();

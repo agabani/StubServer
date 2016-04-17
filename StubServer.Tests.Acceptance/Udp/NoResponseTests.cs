@@ -13,8 +13,8 @@ namespace StubServer.Tests.Acceptance.Udp
             var udpStubServer = NewStubServer();
 
             udpStubServer
-                .Setup(message => false)
-                .Returns(() => Encoding.UTF8.GetBytes("Not Setup"));
+                .When(message => false)
+                .Return(() => Encoding.UTF8.GetBytes("Not Setup"));
 
             var udpClient = NewUdpClient();
 

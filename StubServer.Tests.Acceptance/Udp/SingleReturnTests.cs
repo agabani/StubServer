@@ -12,8 +12,8 @@ namespace StubServer.Tests.Acceptance.Udp
             var udpStubServer = NewStubServer();
 
             udpStubServer
-                .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
-                .Returns(() => Encoding.UTF8.GetBytes("John Smith"));
+                .When(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
+                .Return(() => Encoding.UTF8.GetBytes("John Smith"));
 
             var udpClient = NewUdpClient();
 
@@ -36,8 +36,8 @@ namespace StubServer.Tests.Acceptance.Udp
             var udpStubServer = NewStubServer();
 
             udpStubServer
-                .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
-                .Returns(() => Encoding.UTF8.GetBytes("John Smith"));
+                .When(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
+                .Return(() => Encoding.UTF8.GetBytes("John Smith"));
 
             var udpClient = NewUdpClient();
 

@@ -16,32 +16,32 @@ namespace StubServer.Tests.Acceptance.Smtp
                 () => Encoding.ASCII.GetBytes("220 SMTP StubServer\r\n"));
 
             smtpStubServer
-                .Setup(bytes => Encoding.ASCII.GetString(bytes).StartsWith("EHLO"))
-                .Returns(() => Encoding.ASCII.GetBytes(
+                .When(bytes => Encoding.ASCII.GetString(bytes).StartsWith("EHLO"))
+                .Return(() => Encoding.ASCII.GetBytes(
                     "250-smtp.example.com Hello www.example.org [123.0.0.321]\r\n" +
                     "250-SIZE 14680064\r\n" +
                     "250-PIPELINING\r\n" +
                     "250 HELP\r\n"));
 
             smtpStubServer
-                .Setup(bytes => Encoding.ASCII.GetString(bytes).Equals("MAIL FROM:<jane@contoso.com>\r\n"))
-                .Returns(() => Encoding.ASCII.GetBytes("250 Ok\r\n"));
+                .When(bytes => Encoding.ASCII.GetString(bytes).Equals("MAIL FROM:<jane@contoso.com>\r\n"))
+                .Return(() => Encoding.ASCII.GetBytes("250 Ok\r\n"));
 
             smtpStubServer
-                .Setup(bytes => Encoding.ASCII.GetString(bytes).Equals("RCPT TO:<ben@contoso.com>\r\n"))
-                .Returns(() => Encoding.ASCII.GetBytes("250 Ok\r\n"));
+                .When(bytes => Encoding.ASCII.GetString(bytes).Equals("RCPT TO:<ben@contoso.com>\r\n"))
+                .Return(() => Encoding.ASCII.GetBytes("250 Ok\r\n"));
 
             smtpStubServer
-                .Setup(bytes => Encoding.ASCII.GetString(bytes).Equals("DATA\r\n"))
-                .Returns(() => Encoding.ASCII.GetBytes("354 End data with <CR><LF>.<CR><LF>\r\n"));
+                .When(bytes => Encoding.ASCII.GetString(bytes).Equals("DATA\r\n"))
+                .Return(() => Encoding.ASCII.GetBytes("354 End data with <CR><LF>.<CR><LF>\r\n"));
 
             smtpStubServer
-                .Setup(bytes => Encoding.ASCII.GetString(bytes).Contains("\r\n.\r\n"))
-                .Returns(() => Encoding.ASCII.GetBytes("250 Ok: queued as 12345\r\n"));
+                .When(bytes => Encoding.ASCII.GetString(bytes).Contains("\r\n.\r\n"))
+                .Return(() => Encoding.ASCII.GetBytes("250 Ok: queued as 12345\r\n"));
 
             smtpStubServer
-                .Setup(bytes => Encoding.ASCII.GetString(bytes).Equals("QUIT\r\n"))
-                .Returns(() => Encoding.ASCII.GetBytes("221 Bye\r\n"));
+                .When(bytes => Encoding.ASCII.GetString(bytes).Equals("QUIT\r\n"))
+                .Return(() => Encoding.ASCII.GetBytes("221 Bye\r\n"));
 
             var smtpClient = new SmtpClient("127.0.0.1", 5000);
 

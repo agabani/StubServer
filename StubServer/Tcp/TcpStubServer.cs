@@ -5,7 +5,7 @@ using System.Net.Sockets;
 
 namespace StubServer.Tcp
 {
-    public class TcpStubServer : IDisposable
+    public partial class TcpStubServer : IDisposable
     {
         private TcpHandler _tcpHandler;
 
@@ -14,15 +14,15 @@ namespace StubServer.Tcp
             _tcpHandler = new TcpHandler(new TcpListener(new IPEndPoint(ipAddress, port)));
         }
 
-        public IMultipleReturns<byte[]> Setup(Expression<Func<byte[], bool>> expression)
-        {
-            return _tcpHandler.AddSetup(expression);
-        }
-
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public IMultipleReturns<byte[]> When(Expression<Func<byte[], bool>> expression)
+        {
+            return _tcpHandler.AddSetup(expression);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -35,6 +35,15 @@ namespace StubServer.Tcp
                     _tcpHandler = null;
                 }
             }
+        }
+    }
+
+    public partial class TcpStubServer
+    {
+        [Obsolete(Literals.SetupIsDeprecatedPleaseUseWhenInstead)]
+        public IMultipleReturns<byte[]> Setup(Expression<Func<byte[], bool>> expression)
+        {
+            return When(expression);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Net.Sockets;
 
 namespace StubServer.Udp
 {
-    public class UdpStubServer : IDisposable
+    public partial class UdpStubServer : IDisposable
     {
         private UdpHandler _udpHandler;
 
@@ -14,15 +14,15 @@ namespace StubServer.Udp
             _udpHandler = new UdpHandler(new UdpClient(new IPEndPoint(ipAddress, port)));
         }
 
-        public IMultipleReturns<byte[]> Setup(Expression<Func<byte[], bool>> expression)
-        {
-            return _udpHandler.AddSetup(expression);
-        }
-
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public IMultipleReturns<byte[]> When(Expression<Func<byte[], bool>> expression)
+        {
+            return _udpHandler.AddSetup(expression);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -35,6 +35,15 @@ namespace StubServer.Udp
                     _udpHandler = null;
                 }
             }
+        }
+    }
+
+    public partial class UdpStubServer
+    {
+        [Obsolete(Literals.SetupIsDeprecatedPleaseUseWhenInstead)]
+        public IMultipleReturns<byte[]> Setup(Expression<Func<byte[], bool>> expression)
+        {
+            return When(expression);
         }
     }
 }

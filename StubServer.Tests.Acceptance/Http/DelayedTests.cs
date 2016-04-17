@@ -16,8 +16,8 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => true)
-                .Returns(async () =>
+                .When(message => true)
+                .Return(async () =>
                 {
                     await Task.Delay(TimeSpan.FromMilliseconds(500));
                     return new HttpResponseMessage(HttpStatusCode.OK);
@@ -51,8 +51,8 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => true)
-                .Returns(async () =>
+                .When(message => true)
+                .Return(async () =>
                 {
                     await Task.Delay(TimeSpan.FromSeconds(2));
                     return new HttpResponseMessage(HttpStatusCode.OK);

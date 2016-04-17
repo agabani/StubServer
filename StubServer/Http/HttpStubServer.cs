@@ -6,10 +6,10 @@ using System.Web.Http.SelfHost;
 
 namespace StubServer.Http
 {
-    public class HttpStubServer : IDisposable
+    public partial class HttpStubServer : IDisposable
     {
-        private HttpSelfHostServer _httpSelfHostServer;
         private HttpHandler _httpHandler;
+        private HttpSelfHostServer _httpSelfHostServer;
 
         public HttpStubServer(Uri baseAddress)
         {
@@ -21,15 +21,15 @@ namespace StubServer.Http
             _httpSelfHostServer.OpenAsync().Wait();
         }
 
-        public ISingleReturns<HttpResponseMessage> Setup(Expression<Func<HttpRequestMessage, bool>> expression)
-        {
-            return _httpHandler.AddSetup(expression);
-        }
-
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public ISingleReturns<HttpResponseMessage> When(Expression<Func<HttpRequestMessage, bool>> expression)
+        {
+            return _httpHandler.AddSetup(expression);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -49,6 +49,15 @@ namespace StubServer.Http
                     _httpHandler = null;
                 }
             }
+        }
+    }
+
+    public partial class HttpStubServer
+    {
+        [Obsolete(Literals.SetupIsDeprecatedPleaseUseWhenInstead)]
+        public ISingleReturns<HttpResponseMessage> Setup(Expression<Func<HttpRequestMessage, bool>> expression)
+        {
+            return When(expression);
         }
     }
 }

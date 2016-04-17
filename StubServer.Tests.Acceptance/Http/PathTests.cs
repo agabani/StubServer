@@ -16,8 +16,8 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => message.RequestUri.PathAndQuery.Equals("/respected/path/" + random))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.OK));
+                .When(message => message.RequestUri.PathAndQuery.Equals("/respected/path/" + random))
+                .Return(() => new HttpResponseMessage(HttpStatusCode.OK));
 
             var httpClient = NewHttpClient();
 
@@ -68,8 +68,8 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => message.RequestUri.PathAndQuery.Equals("/respected/path/" + random))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.OK));
+                .When(message => message.RequestUri.PathAndQuery.Equals("/respected/path/" + random))
+                .Return(() => new HttpResponseMessage(HttpStatusCode.OK));
 
             var httpClient = NewHttpClient();
 

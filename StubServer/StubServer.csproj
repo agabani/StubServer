@@ -43,6 +43,7 @@
     <Compile Include="IMultipleReturns.cs" />
     <Compile Include="ISingleReturns.cs" />
     <Compile Include="Http\HttpHandler.cs" />
+    <Compile Include="Literals.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="Smtp\SmtpHandler.cs" />

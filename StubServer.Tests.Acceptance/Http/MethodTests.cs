@@ -16,9 +16,9 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => message.Method == HttpMethod.Get &&
+                .When(message => message.Method == HttpMethod.Get &&
                                   message.RequestUri.PathAndQuery.Equals("/" + path))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.OK));
+                .Return(() => new HttpResponseMessage(HttpStatusCode.OK));
 
             var httpClient = NewHttpClient();
 
@@ -45,9 +45,9 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => message.Method == HttpMethod.Post &&
+                .When(message => message.Method == HttpMethod.Post &&
                                   message.RequestUri.PathAndQuery.Equals("/" + path))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.Created));
+                .Return(() => new HttpResponseMessage(HttpStatusCode.Created));
 
             var httpClient = NewHttpClient();
 
@@ -74,9 +74,9 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => message.Method == HttpMethod.Put &&
+                .When(message => message.Method == HttpMethod.Put &&
                                   message.RequestUri.PathAndQuery.Equals("/" + path))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.NoContent));
+                .Return(() => new HttpResponseMessage(HttpStatusCode.NoContent));
 
             var httpClient = NewHttpClient();
 
@@ -103,9 +103,9 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => message.Method == HttpMethod.Delete &&
+                .When(message => message.Method == HttpMethod.Delete &&
                                   message.RequestUri.PathAndQuery.Equals("/" + path))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.Unauthorized));
+                .Return(() => new HttpResponseMessage(HttpStatusCode.Unauthorized));
 
             var httpClient = NewHttpClient();
 
@@ -132,9 +132,9 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => message.Method == HttpMethod.Head &&
+                .When(message => message.Method == HttpMethod.Head &&
                                   message.RequestUri.PathAndQuery.Equals("/" + path))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.NotModified));
+                .Return(() => new HttpResponseMessage(HttpStatusCode.NotModified));
 
             var httpClient = NewHttpClient();
 
@@ -161,9 +161,9 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => message.Method == HttpMethod.Options &&
+                .When(message => message.Method == HttpMethod.Options &&
                                   message.RequestUri.PathAndQuery.Equals("/" + path))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.ServiceUnavailable));
+                .Return(() => new HttpResponseMessage(HttpStatusCode.ServiceUnavailable));
 
             var httpClient = NewHttpClient();
 
@@ -190,9 +190,9 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => message.Method == HttpMethod.Trace &&
+                .When(message => message.Method == HttpMethod.Trace &&
                                   message.RequestUri.PathAndQuery.Equals("/" + path))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.NotFound));
+                .Return(() => new HttpResponseMessage(HttpStatusCode.NotFound));
 
             var httpClient = NewHttpClient();
 

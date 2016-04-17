@@ -14,8 +14,8 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => ThrowException())
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.OK));
+                .When(message => ThrowException())
+                .Return(() => new HttpResponseMessage(HttpStatusCode.OK));
 
             var httpClient = NewHttpClient();
 
@@ -41,8 +41,8 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => true)
-                .Returns(() =>
+                .When(message => true)
+                .Return(() =>
                 {
                     ThrowException();
                     return new HttpResponseMessage(HttpStatusCode.OK);

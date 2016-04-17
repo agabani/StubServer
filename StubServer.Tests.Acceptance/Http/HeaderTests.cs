@@ -17,9 +17,9 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => message.Headers.Authorization.Scheme == "Basic" &&
+                .When(message => message.Headers.Authorization.Scheme == "Basic" &&
                                   message.Headers.Authorization.Parameter == token)
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.Forbidden));
+                .Return(() => new HttpResponseMessage(HttpStatusCode.Forbidden));
 
             var httpClient = NewHttpClient();
 

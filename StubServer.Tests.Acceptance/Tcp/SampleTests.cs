@@ -17,8 +17,8 @@ namespace StubServer.Tests.Acceptance.Tcp
             var tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
 
             tcpStubServer
-                .Setup(bytes => true)
-                .Returns(() => Encoding.UTF8.GetBytes("Hello, World!"));
+                .When(bytes => true)
+                .Return(() => Encoding.UTF8.GetBytes("Hello, World!"));
 
             var tcpClient = new TcpClient();
             tcpClient.Connect(IPAddress.Loopback, 5000);
@@ -49,8 +49,8 @@ namespace StubServer.Tests.Acceptance.Tcp
             var tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
 
             tcpStubServer
-                .Setup(bytes => Encoding.UTF8.GetString(bytes).Equals("Hi!"))
-                .Returns(() => Encoding.UTF8.GetBytes("Hello, World!"));
+                .When(bytes => Encoding.UTF8.GetString(bytes).Equals("Hi!"))
+                .Return(() => Encoding.UTF8.GetBytes("Hello, World!"));
 
             var tcpClient = new TcpClient();
             tcpClient.Connect(IPAddress.Loopback, 5000);
@@ -81,10 +81,10 @@ namespace StubServer.Tests.Acceptance.Tcp
             var tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
 
             tcpStubServer
-                .Setup(bytes => Encoding.UTF8.GetString(bytes).Equals("Hi!"))
-                .Returns(() => Encoding.UTF8.GetBytes("Hello, John!"))
-                .Returns(() => Encoding.UTF8.GetBytes("Hello, Tom!"))
-                .Returns(() => Encoding.UTF8.GetBytes("Hello, Ben!"));
+                .When(bytes => Encoding.UTF8.GetString(bytes).Equals("Hi!"))
+                .Return(() => Encoding.UTF8.GetBytes("Hello, John!"))
+                .Return(() => Encoding.UTF8.GetBytes("Hello, Tom!"))
+                .Return(() => Encoding.UTF8.GetBytes("Hello, Ben!"));
 
             var tcpClient = new TcpClient();
             tcpClient.Connect(IPAddress.Loopback, 5000);
@@ -125,8 +125,8 @@ namespace StubServer.Tests.Acceptance.Tcp
             var tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
 
             tcpStubServer
-                .Setup(bytes => true)
-                .Returns(async () =>
+                .When(bytes => true)
+                .Return(async () =>
                 {
                     await Task.Delay(50);
                     return Encoding.UTF8.GetBytes("Hello, World!");
@@ -195,8 +195,8 @@ namespace StubServer.Tests.Acceptance.Tcp
             var tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
 
             tcpStubServer
-                .Setup(bytes => true)
-                .Returns(() => Encoding.UTF8.GetBytes("Hello, World!"));
+                .When(bytes => true)
+                .Return(() => Encoding.UTF8.GetBytes("Hello, World!"));
 
             var tcpClient = new TcpClient()
             {

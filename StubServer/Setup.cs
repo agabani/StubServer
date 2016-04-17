@@ -42,7 +42,7 @@ namespace StubServer
 
     public partial class Setup<TRequest, TResponse> : ISingleReturns<TResponse>
     {
-        public ISingleReturns<TResponse> Returns(Func<TResponse> response)
+        public ISingleReturns<TResponse> Return(Func<TResponse> response)
         {
             _responses.Enqueue(new List<Func<CancellationToken, Task<TResponse>>>
             {
@@ -51,7 +51,7 @@ namespace StubServer
             return this;
         }
 
-        public ISingleReturns<TResponse> Returns(Func<Task<TResponse>> response)
+        public ISingleReturns<TResponse> Return(Func<Task<TResponse>> response)
         {
             _responses.Enqueue(new List<Func<CancellationToken, Task<TResponse>>>
             {
@@ -60,7 +60,7 @@ namespace StubServer
             return this;
         }
 
-        public ISingleReturns<TResponse> Returns(Func<CancellationToken, Task<TResponse>> response)
+        public ISingleReturns<TResponse> Return(Func<CancellationToken, Task<TResponse>> response)
         {
             _responses.Enqueue(new List<Func<CancellationToken, Task<TResponse>>>
             {
@@ -72,20 +72,20 @@ namespace StubServer
 
     public partial class Setup<TRequest, TResponse> : IMultipleReturns<TResponse>
     {
-        IMultipleReturns<TResponse> IMultipleReturns<TResponse>.Returns(Func<TResponse> response)
+        IMultipleReturns<TResponse> IMultipleReturns<TResponse>.Return(Func<TResponse> response)
         {
-            return (IMultipleReturns<TResponse>) Returns(response);
+            return (IMultipleReturns<TResponse>) Return(response);
         }
 
-        IMultipleReturns<TResponse> IMultipleReturns<TResponse>.Returns(Func<Task<TResponse>> response)
+        IMultipleReturns<TResponse> IMultipleReturns<TResponse>.Return(Func<Task<TResponse>> response)
         {
-            return (IMultipleReturns<TResponse>) Returns(response);
+            return (IMultipleReturns<TResponse>) Return(response);
         }
 
-        IMultipleReturns<TResponse> IMultipleReturns<TResponse>.Returns(
+        IMultipleReturns<TResponse> IMultipleReturns<TResponse>.Return(
             Func<CancellationToken, Task<TResponse>> response)
         {
-            return (IMultipleReturns<TResponse>) Returns(response);
+            return (IMultipleReturns<TResponse>) Return(response);
         }
 
         public IMultipleReturns<TResponse> Then(Func<TResponse> response)
@@ -104,6 +104,46 @@ namespace StubServer
         {
             _responses.Last().Add(response);
             return this;
+        }
+    }
+
+    public partial class Setup<TRequest, TResponse>
+    {
+        [Obsolete(Literals.ReturnsIsDeprecatedPleaseUseReturnInstead)]
+        public ISingleReturns<TResponse> Returns(Func<TResponse> response)
+        {
+            return Return(response);
+        }
+
+        [Obsolete(Literals.ReturnsIsDeprecatedPleaseUseReturnInstead)]
+        public ISingleReturns<TResponse> Returns(Func<Task<TResponse>> response)
+        {
+            return Return(response);
+        }
+
+        [Obsolete(Literals.ReturnsIsDeprecatedPleaseUseReturnInstead)]
+        public ISingleReturns<TResponse> Returns(Func<CancellationToken, Task<TResponse>> response)
+        {
+            return Return(response);
+        }
+
+        [Obsolete(Literals.ReturnsIsDeprecatedPleaseUseReturnInstead)]
+        IMultipleReturns<TResponse> IMultipleReturns<TResponse>.Returns(Func<TResponse> response)
+        {
+            return (IMultipleReturns<TResponse>) Return(response);
+        }
+
+        [Obsolete(Literals.ReturnsIsDeprecatedPleaseUseReturnInstead)]
+        IMultipleReturns<TResponse> IMultipleReturns<TResponse>.Returns(Func<Task<TResponse>> response)
+        {
+            return (IMultipleReturns<TResponse>) Return(response);
+        }
+
+        [Obsolete(Literals.ReturnsIsDeprecatedPleaseUseReturnInstead)]
+        IMultipleReturns<TResponse> IMultipleReturns<TResponse>.Returns(
+            Func<CancellationToken, Task<TResponse>> response)
+        {
+            return (IMultipleReturns<TResponse>) Return(response);
         }
     }
 }

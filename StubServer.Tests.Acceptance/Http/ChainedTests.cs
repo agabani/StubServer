@@ -13,10 +13,10 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => true)
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.OK))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.NotModified))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.ServiceUnavailable));
+                .When(message => true)
+                .Return(() => new HttpResponseMessage(HttpStatusCode.OK))
+                .Return(() => new HttpResponseMessage(HttpStatusCode.NotModified))
+                .Return(() => new HttpResponseMessage(HttpStatusCode.ServiceUnavailable));
 
             var httpClient = NewHttpClient();
 

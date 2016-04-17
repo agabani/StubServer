@@ -12,10 +12,10 @@ namespace StubServer.Tests.Acceptance.Tcp
             var tcpStubServer = NewStubServer();
 
             tcpStubServer
-                .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
-                .Returns(() => Encoding.UTF8.GetBytes("John Smith"))
-                .Returns(() => Encoding.UTF8.GetBytes("James Bond"))
-                .Returns(() => Encoding.UTF8.GetBytes("Bob Marley"));
+                .When(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
+                .Return(() => Encoding.UTF8.GetBytes("John Smith"))
+                .Return(() => Encoding.UTF8.GetBytes("James Bond"))
+                .Return(() => Encoding.UTF8.GetBytes("Bob Marley"));
 
             var tcpClient = NewTcpClient();
             var networkStream = tcpClient.GetStream();
@@ -49,9 +49,9 @@ namespace StubServer.Tests.Acceptance.Tcp
             var tcpStubServer = NewStubServer();
 
             tcpStubServer
-                .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
-                .Returns(() => Encoding.UTF8.GetBytes("John Smith"))
-                .Returns(() => Encoding.UTF8.GetBytes("James Bond"));
+                .When(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
+                .Return(() => Encoding.UTF8.GetBytes("John Smith"))
+                .Return(() => Encoding.UTF8.GetBytes("James Bond"));
 
             var tcpClient = NewTcpClient();
             var networkStream = tcpClient.GetStream();

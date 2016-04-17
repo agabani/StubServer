@@ -17,8 +17,8 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
 
             httpStubServer
-                .Setup(message => true)
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.OK));
+                .When(message => true)
+                .Return(() => new HttpResponseMessage(HttpStatusCode.OK));
 
             var httpClient = new HttpClient {BaseAddress = new Uri("http://localhost:5000")};
 
@@ -39,8 +39,8 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
 
             httpStubServer
-                .Setup(message => message.RequestUri.PathAndQuery.Equals("/JohnSmith"))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.OK));
+                .When(message => message.RequestUri.PathAndQuery.Equals("/JohnSmith"))
+                .Return(() => new HttpResponseMessage(HttpStatusCode.OK));
 
             var httpClient = new HttpClient {BaseAddress = new Uri("http://localhost:5000")};
 
@@ -62,7 +62,7 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
 
             httpStubServer
-                .Setup(message => message.RequestUri.PathAndQuery.Equals("/account/signup") &&
+                .When(message => message.RequestUri.PathAndQuery.Equals("/account/signup") &&
                                   message.Method.Equals(HttpMethod.Post) &&
                                   message.Content.Headers.ContentType.MediaType
                                       .Equals("application/x-www-form-urlencoded") &&
@@ -70,7 +70,7 @@ namespace StubServer.Tests.Acceptance.Http
                                       .GetAwaiter().GetResult()
                                       .Equals(
                                           "email=JohnSmith%40example.com&password=P%40ssword1&confirmPassword=P%40ssword1"))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.Created)
+                .Return(() => new HttpResponseMessage(HttpStatusCode.Created)
                 {
                     Headers = {Location = new Uri("http://location:5000/account/1")}
                 });
@@ -100,10 +100,10 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
 
             httpStubServer
-                .Setup(message => true)
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.OK))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.NotModified))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.ServiceUnavailable));
+                .When(message => true)
+                .Return(() => new HttpResponseMessage(HttpStatusCode.OK))
+                .Return(() => new HttpResponseMessage(HttpStatusCode.NotModified))
+                .Return(() => new HttpResponseMessage(HttpStatusCode.ServiceUnavailable));
 
             var httpClient = new HttpClient {BaseAddress = new Uri("http://localhost:5000")};
 
@@ -131,8 +131,8 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
 
             httpStubServer
-                .Setup(message => true)
-                .Returns(async () =>
+                .When(message => true)
+                .Return(async () =>
                 {
                     await Task.Delay(50);
                     return new HttpResponseMessage(HttpStatusCode.OK);
@@ -157,8 +157,8 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
 
             httpStubServer
-                .Setup(message => true)
-                .Returns(async cancellationToken =>
+                .When(message => true)
+                .Return(async cancellationToken =>
                 {
                     await Task.Delay(50, cancellationToken);
                     return new HttpResponseMessage(HttpStatusCode.OK);
@@ -184,15 +184,15 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
 
             httpStubServer
-                .Setup(message => message.RequestUri.PathAndQuery.Equals("/"))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.Redirect)
+                .When(message => message.RequestUri.PathAndQuery.Equals("/"))
+                .Return(() => new HttpResponseMessage(HttpStatusCode.Redirect)
                 {
                     Headers = {Location = new Uri("http://localhost:5000/redirect")}
                 });
 
             httpStubServer
-                .Setup(message => message.RequestUri.PathAndQuery.Equals("/redirect"))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.OK));
+                .When(message => message.RequestUri.PathAndQuery.Equals("/redirect"))
+                .Return(() => new HttpResponseMessage(HttpStatusCode.OK));
 
             var httpClient = new HttpClient(new HttpClientHandler {AllowAutoRedirect = true})
             {

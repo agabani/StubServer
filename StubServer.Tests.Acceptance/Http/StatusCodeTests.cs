@@ -20,9 +20,9 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => message.Method == HttpMethod.Get &&
+                .When(message => message.Method == HttpMethod.Get &&
                                   message.RequestUri.PathAndQuery.Equals("/" + path))
-                .Returns(() => new HttpResponseMessage(httpStatusCode));
+                .Return(() => new HttpResponseMessage(httpStatusCode));
 
             var httpClient = NewHttpClient();
 

@@ -12,8 +12,8 @@ namespace StubServer.Tests.Acceptance.Udp
             var udpStubServer = NewStubServer();
 
             udpStubServer
-                .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
-                .Returns(() => Encoding.UTF8.GetBytes("John A Smith"))
+                .When(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
+                .Return(() => Encoding.UTF8.GetBytes("John A Smith"))
                 .Then(() => Encoding.UTF8.GetBytes("John B Smith"))
                 .Then(() => Encoding.UTF8.GetBytes("John C Smith"));
 
@@ -39,14 +39,14 @@ namespace StubServer.Tests.Acceptance.Udp
             var udpStubServer = NewStubServer();
 
             udpStubServer
-                .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
-                .Returns(() => Encoding.UTF8.GetBytes("John A Smith"))
+                .When(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
+                .Return(() => Encoding.UTF8.GetBytes("John A Smith"))
                 .Then(() => Encoding.UTF8.GetBytes("John B Smith"))
                 .Then(() => Encoding.UTF8.GetBytes("John C Smith"))
-                .Returns(() => Encoding.UTF8.GetBytes("James A Bond"))
+                .Return(() => Encoding.UTF8.GetBytes("James A Bond"))
                 .Then(() => Encoding.UTF8.GetBytes("James B Bond"))
                 .Then(() => Encoding.UTF8.GetBytes("James C Bond"))
-                .Returns(() => Encoding.UTF8.GetBytes("Bob A Marley"))
+                .Return(() => Encoding.UTF8.GetBytes("Bob A Marley"))
                 .Then(() => Encoding.UTF8.GetBytes("Bob B Marley"))
                 .Then(() => Encoding.UTF8.GetBytes("Bob C Marley"));
 

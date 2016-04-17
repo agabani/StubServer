@@ -17,8 +17,8 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => message.Content.ReadAsStringAsync().GetAwaiter().GetResult() == randomClientContent)
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.OK)
+                .When(message => message.Content.ReadAsStringAsync().GetAwaiter().GetResult() == randomClientContent)
+                .Return(() => new HttpResponseMessage(HttpStatusCode.OK)
                 {
                     Content = new StringContent(randomServerContent)
                 });

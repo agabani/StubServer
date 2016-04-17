@@ -16,8 +16,8 @@ namespace StubServer.Tests.Acceptance.Tcp
             var tcpStubServer = NewStubServer();
 
             tcpStubServer
-                .Setup(bytes => true)
-                .Returns(async () =>
+                .When(bytes => true)
+                .Return(async () =>
                 {
                     await Task.Delay(TimeSpan.FromMilliseconds(500));
                     return Encoding.UTF8.GetBytes("500ms");
@@ -51,8 +51,8 @@ namespace StubServer.Tests.Acceptance.Tcp
             var tcpStubServer = NewStubServer();
 
             tcpStubServer
-                .Setup(message => true)
-                .Returns(async () =>
+                .When(message => true)
+                .Return(async () =>
                 {
                     await Task.Delay(TimeSpan.FromSeconds(2));
                     return Encoding.UTF8.GetBytes("2s");

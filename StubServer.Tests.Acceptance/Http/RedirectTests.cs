@@ -14,22 +14,22 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => message.RequestUri.PathAndQuery.Equals("/A"))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.Redirect)
+                .When(message => message.RequestUri.PathAndQuery.Equals("/A"))
+                .Return(() => new HttpResponseMessage(HttpStatusCode.Redirect)
                 {
                     Headers = { Location = new Uri(BaseAddress, "/B")}
                 });
 
             httpStubServer
-                .Setup(message => message.RequestUri.PathAndQuery.Equals("/B"))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.Redirect)
+                .When(message => message.RequestUri.PathAndQuery.Equals("/B"))
+                .Return(() => new HttpResponseMessage(HttpStatusCode.Redirect)
                 {
                     Headers = { Location = new Uri(BaseAddress, "/C") }
                 });
 
             httpStubServer
-                .Setup(message => message.RequestUri.PathAndQuery.Equals("/C"))
-                .Returns(() => new HttpResponseMessage(HttpStatusCode.OK)
+                .When(message => message.RequestUri.PathAndQuery.Equals("/C"))
+                .Return(() => new HttpResponseMessage(HttpStatusCode.OK)
                 {
                     Content = new StringContent("redirect successful")
                 });

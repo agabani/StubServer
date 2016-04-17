@@ -13,7 +13,7 @@ namespace StubServer.Tests.Acceptance.Http
             var httpStubServer = NewStubServer();
 
             httpStubServer
-                .Setup(message => true);
+                .When(message => true);
 
             var httpClient = NewHttpClient();
 

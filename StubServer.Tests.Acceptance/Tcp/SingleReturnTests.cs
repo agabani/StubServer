@@ -12,8 +12,8 @@ namespace StubServer.Tests.Acceptance.Tcp
             var tcpStubServer = NewStubServer();
 
             tcpStubServer
-                .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
-                .Returns(() => Encoding.UTF8.GetBytes("John Smith"));
+                .When(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
+                .Return(() => Encoding.UTF8.GetBytes("John Smith"));
 
             var tcpClient = NewTcpClient();
             var networkStream = tcpClient.GetStream();
@@ -39,8 +39,8 @@ namespace StubServer.Tests.Acceptance.Tcp
             var tcpStubServer = NewStubServer();
 
             tcpStubServer
-                .Setup(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
-                .Returns(() => Encoding.UTF8.GetBytes("John Smith"));
+                .When(o => Encoding.UTF8.GetString(o).Equals("Hello, World!"))
+                .Return(() => Encoding.UTF8.GetBytes("John Smith"));
 
             var tcpClient = NewTcpClient();
             var networkStream = tcpClient.GetStream();
