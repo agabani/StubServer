@@ -73,6 +73,7 @@
     <Compile Include="Udp\ConcurrentClientsTests.cs" />
     <Compile Include="Udp\DelayedTests.cs" />
     <Compile Include="Udp\ChainedReturnTests.cs" />
+    <Compile Include="Udp\MultipleReturnTests.cs" />
     <Compile Include="Udp\NoResponseTests.cs" />
     <Compile Include="Udp\SampleTests.cs" />
     <Compile Include="Udp\SingleReturnTests.cs" />

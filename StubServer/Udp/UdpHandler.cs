@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Sockets;
 using System.Threading;
@@ -31,25 +32,23 @@ namespace StubServer.Udp
             {
                 var udpReceiveResult = await _udpClient.ReceiveAsync();
 
-                foreach (var setup in _setups)
+                foreach (var results in _setups.Select(setup => setup
+                    .Results(udpReceiveResult.Buffer, CancellationToken.None))
+                    .Where(results => results != null))
                 {
-                    var result = await setup
-                        .Result(udpReceiveResult.Buffer, CancellationToken.None)
-                        .ConfigureAwait(false);
-
-                    if (result != null)
+                    foreach (var task in results)
                     {
-                        await _udpClient
-                            .SendAsync(result, result.Length, udpReceiveResult.RemoteEndPoint)
-                            .ConfigureAwait(false);
+                        var bytes = await task;
 
-                        break;
+                        await _udpClient.SendAsync(bytes, bytes.Length, udpReceiveResult.RemoteEndPoint);
                     }
+
+                    break;
                 }
             }
         }
 
-        internal ISingleReturns<byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
+        internal IMultipleReturns<byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
         {
             Setup<byte[], byte[]> setup;
             _setups.Add(setup = new Setup<byte[], byte[]>(expression));

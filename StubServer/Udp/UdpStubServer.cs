@@ -14,7 +14,7 @@ namespace StubServer.Udp
             _udpHandler = new UdpHandler(new UdpClient(new IPEndPoint(ipAddress, port)));
         }
 
-        public ISingleReturns<byte[]> Setup(Expression<Func<byte[], bool>> expression)
+        public IMultipleReturns<byte[]> Setup(Expression<Func<byte[], bool>> expression)
         {
             return _udpHandler.AddSetup(expression);
         }
