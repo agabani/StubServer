@@ -5,7 +5,7 @@ using System.Net.Sockets;
 
 namespace StubServer.Tcp
 {
-    public class TcpStubServer : ITcpStubServer
+    public class TcpStubServer : IDisposable
     {
         private TcpHandler _tcpHandler;
 

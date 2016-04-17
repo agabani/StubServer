@@ -14,7 +14,7 @@ namespace StubServer.Tests.Acceptance.Tcp
         public void SimpleTest()
         {
             // Arrange
-            ITcpStubServer tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
+            TcpStubServer tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
 
             tcpStubServer
                 .Setup(bytes => true)
@@ -46,7 +46,7 @@ namespace StubServer.Tests.Acceptance.Tcp
         public void DemoTest()
         {
             // Arrange
-            ITcpStubServer tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
+            TcpStubServer tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
 
             tcpStubServer
                 .Setup(bytes => Encoding.UTF8.GetString(bytes).Equals("Hi!"))
@@ -78,7 +78,7 @@ namespace StubServer.Tests.Acceptance.Tcp
         public void ChainedResponses()
         {
             // Arrange
-            ITcpStubServer tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
+            TcpStubServer tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
 
             tcpStubServer
                 .Setup(bytes => Encoding.UTF8.GetString(bytes).Equals("Hi!"))
@@ -122,7 +122,7 @@ namespace StubServer.Tests.Acceptance.Tcp
         public void AsyncTests()
         {
             // Arrange
-            ITcpStubServer tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
+            TcpStubServer tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
 
             tcpStubServer
                 .Setup(bytes => true)
@@ -159,7 +159,7 @@ namespace StubServer.Tests.Acceptance.Tcp
         public void NoResponseTests()
         {
             // Arrange
-            ITcpStubServer tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
+            TcpStubServer tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
 
             var tcpClient = new TcpClient()
             {
@@ -192,7 +192,7 @@ namespace StubServer.Tests.Acceptance.Tcp
         public void NoRequestTests()
         {
             // Arrange
-            ITcpStubServer tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
+            TcpStubServer tcpStubServer = new TcpStubServer(IPAddress.Any, 5000);
 
             tcpStubServer
                 .Setup(bytes => true)

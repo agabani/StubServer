@@ -5,7 +5,7 @@ using System.Net.Sockets;
 
 namespace StubServer.Udp
 {
-    public class UdpStubServer : IUdpStubServer
+    public class UdpStubServer : IDisposable
     {
         private UdpHandler _udpHandler;
 

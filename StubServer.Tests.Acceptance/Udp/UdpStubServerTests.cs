@@ -7,7 +7,7 @@ namespace StubServer.Tests.Acceptance.Udp
 {
     internal abstract class UdpStubServerTests
     {
-        protected IUdpStubServer NewStubServer()
+        protected UdpStubServer NewStubServer()
         {
             return new UdpStubServer(IPAddress.Any, 5050);
         }

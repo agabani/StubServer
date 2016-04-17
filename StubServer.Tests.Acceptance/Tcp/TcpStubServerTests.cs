@@ -7,7 +7,7 @@ namespace StubServer.Tests.Acceptance.Tcp
 {
     internal abstract class TcpStubServerTests
     {
-        protected ITcpStubServer NewStubServer()
+        protected TcpStubServer NewStubServer()
         {
             return new TcpStubServer(IPAddress.Loopback, 5050);
         }

@@ -12,7 +12,7 @@ namespace StubServer.Tests.Acceptance.Smtp
         public void DemoTests()
         {
             // Arrange
-            ISmtpStubServer smtpStubServer = new SmtpStubServer(IPAddress.Loopback, 5000,
+            SmtpStubServer smtpStubServer = new SmtpStubServer(IPAddress.Loopback, 5000,
                 () => Encoding.ASCII.GetBytes("220 SMTP StubServer\r\n"));
 
             smtpStubServer

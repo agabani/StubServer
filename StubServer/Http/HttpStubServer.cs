@@ -6,7 +6,7 @@ using System.Web.Http.SelfHost;
 
 namespace StubServer.Http
 {
-    public class HttpStubServer : IHttpStubServer
+    public class HttpStubServer : IDisposable
     {
         private HttpSelfHostServer _httpSelfHostServer;
         private HttpHandler _httpHandler;

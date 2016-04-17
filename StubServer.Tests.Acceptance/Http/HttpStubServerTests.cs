@@ -17,7 +17,7 @@ namespace StubServer.Tests.Acceptance.Http
             };
         }
 
-        protected IHttpStubServer NewStubServer()
+        protected HttpStubServer NewStubServer()
         {
             return new HttpStubServer(BaseAddress);
         }

@@ -8,7 +8,7 @@ namespace StubServer.Tests.Acceptance.Smtp
 {
     internal abstract class SmtpStubServerTests
     {
-        protected ISmtpStubServer NewStubServer()
+        protected SmtpStubServer NewStubServer()
         {
             return new SmtpStubServer(IPAddress.Loopback, 5050, () => Encoding.ASCII.GetBytes("220 SMTP StubServer\r\n"));
         }

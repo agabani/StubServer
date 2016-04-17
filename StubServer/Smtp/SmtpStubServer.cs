@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StubServer.Smtp
 {
-    public class SmtpStubServer : ISmtpStubServer
+    public class SmtpStubServer : IDisposable
     {
         private SmtpHandler _smtpHandler;
 
