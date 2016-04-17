@@ -13,7 +13,7 @@ namespace StubServer.Tests.Acceptance.Udp
         public void SimpleTest()
         {
             // Arrange
-            UdpStubServer udpStubServer = new UdpStubServer(IPAddress.Any, 5000);
+            var udpStubServer = new UdpStubServer(IPAddress.Any, 5000);
 
             udpStubServer
                 .Setup(bytes => true)
@@ -42,7 +42,7 @@ namespace StubServer.Tests.Acceptance.Udp
         public void DemoTest()
         {
             // Arrange
-            UdpStubServer udpStubServer = new UdpStubServer(IPAddress.Any, 5000);
+            var udpStubServer = new UdpStubServer(IPAddress.Any, 5000);
 
             udpStubServer
                 .Setup(bytes => Encoding.UTF8.GetString(bytes).Equals("Hi!"))
@@ -71,7 +71,7 @@ namespace StubServer.Tests.Acceptance.Udp
         public void ChainedResponses()
         {
             // Arrange
-            UdpStubServer udpStubServer = new UdpStubServer(IPAddress.Any, 5000);
+            var udpStubServer = new UdpStubServer(IPAddress.Any, 5000);
 
             udpStubServer
                 .Setup(bytes => Encoding.UTF8.GetString(bytes).Equals("Hi!"))
@@ -112,7 +112,7 @@ namespace StubServer.Tests.Acceptance.Udp
         public void AsyncTests()
         {
             // Arrange
-            UdpStubServer udpStubServer = new UdpStubServer(IPAddress.Any, 5000);
+            var udpStubServer = new UdpStubServer(IPAddress.Any, 5000);
 
             udpStubServer
                 .Setup(bytes => true)
@@ -145,7 +145,7 @@ namespace StubServer.Tests.Acceptance.Udp
         public void NoResponseTests()
         {
             // Arrange
-            UdpStubServer udpStubServer = new UdpStubServer(IPAddress.Any, 5000);
+            var udpStubServer = new UdpStubServer(IPAddress.Any, 5000);
 
             var udpClient = new UdpClient
             {

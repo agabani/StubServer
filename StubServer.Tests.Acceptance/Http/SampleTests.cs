@@ -14,7 +14,7 @@ namespace StubServer.Tests.Acceptance.Http
         public void SimpleTest()
         {
             // Arrange
-            HttpStubServer httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
+            var httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
 
             httpStubServer
                 .Setup(message => true)
@@ -36,7 +36,7 @@ namespace StubServer.Tests.Acceptance.Http
         public void DemoTest()
         {
             // Arrange
-            HttpStubServer httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
+            var httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
 
             httpStubServer
                 .Setup(message => message.RequestUri.PathAndQuery.Equals("/JohnSmith"))
@@ -59,7 +59,7 @@ namespace StubServer.Tests.Acceptance.Http
         public void HighFilterTest()
         {
             // Arrange
-            HttpStubServer httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
+            var httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
 
             httpStubServer
                 .Setup(message => message.RequestUri.PathAndQuery.Equals("/account/signup") &&
@@ -97,7 +97,7 @@ namespace StubServer.Tests.Acceptance.Http
         public void ChainedResponses()
         {
             // Arrange
-            HttpStubServer httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
+            var httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
 
             httpStubServer
                 .Setup(message => true)
@@ -128,7 +128,7 @@ namespace StubServer.Tests.Acceptance.Http
         public void AsyncTests()
         {
             // Arrange
-            HttpStubServer httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
+            var httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
 
             httpStubServer
                 .Setup(message => true)
@@ -154,7 +154,7 @@ namespace StubServer.Tests.Acceptance.Http
         public void AsyncCancellationTokenTests()
         {
             // Arrange
-            HttpStubServer httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
+            var httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
 
             httpStubServer
                 .Setup(message => true)
@@ -181,7 +181,7 @@ namespace StubServer.Tests.Acceptance.Http
         public void Redirect_tests()
         {
             // Arrange
-            HttpStubServer httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
+            var httpStubServer = new HttpStubServer(new Uri("http://localhost:5000"));
 
             httpStubServer
                 .Setup(message => message.RequestUri.PathAndQuery.Equals("/"))

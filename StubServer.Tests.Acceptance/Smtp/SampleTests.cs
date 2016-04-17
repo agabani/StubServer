@@ -9,10 +9,10 @@ namespace StubServer.Tests.Acceptance.Smtp
     internal class SampleTests
     {
         [Test]
-        public void DemoTests()
+        public void DemoTests() // ReSharper disable AccessToDisposedClosure
         {
             // Arrange
-            SmtpStubServer smtpStubServer = new SmtpStubServer(IPAddress.Loopback, 5000,
+            var smtpStubServer = new SmtpStubServer(IPAddress.Loopback, 5000,
                 () => Encoding.ASCII.GetBytes("220 SMTP StubServer\r\n"));
 
             smtpStubServer
@@ -65,6 +65,6 @@ namespace StubServer.Tests.Acceptance.Smtp
             message.Dispose();
             smtpClient.Dispose();
             smtpStubServer.Dispose();
-        }
+        } // ReSharper restore AccessToDisposedClosure
     }
 }
