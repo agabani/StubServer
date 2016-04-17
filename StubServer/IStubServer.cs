@@ -5,6 +5,6 @@ namespace StubServer
 {
     public interface IStubServer<TRequest, TResponse> : IDisposable
     {
-        ISetup<TResponse> Setup(Expression<Func<TRequest, bool>> expression);
+        IResponse<TResponse> Setup(Expression<Func<TRequest, bool>> expression);
     }
 }

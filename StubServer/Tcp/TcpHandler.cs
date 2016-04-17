@@ -69,7 +69,7 @@ namespace StubServer.Tcp
             }
         }
 
-        internal ISetup<byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
+        internal IResponse<byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
         {
             Setup<byte[], byte[]> setup;
             _setups.Add(setup = new Setup<byte[], byte[]>(expression));
