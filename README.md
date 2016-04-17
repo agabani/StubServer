@@ -6,7 +6,7 @@
 
 > Can be as simple as you want... Or as complex...
 
-[![NuGet downloads](https://img.shields.io/badge/nuget-v0.1.6.1-blue.svg)](https://www.nuget.org/packages/StubServer)
+[![NuGet downloads](https://img.shields.io/badge/nuget-v0.2.0.0-blue.svg)](https://www.nuget.org/packages/StubServer)
 
 Checkout the [Wiki](https://github.com/agabani/StubServer/wiki) for more examples!
 
@@ -100,10 +100,9 @@ ISmtpStubServer smtpStubServer = new SmtpStubServer(IPAddress.Loopback, 5000,
 smtpStubServer
 	.Setup(bytes => Encoding.ASCII.GetString(bytes).StartsWith("EHLO"))
 	.Returns(() => Encoding.ASCII.GetBytes(
-		"250-smtp.example.com Hello www.example.org [123.0.0.321]\r\n" +
-		"250-SIZE 14680064\r\n" +
-		"250-PIPELINING\r\n" +
-		"250 HELP\r\n"));
+	.Then(() => Encoding.ASCII.GetBytes("250-SIZE 14680064\r\n"))
+	.Then(() => Encoding.ASCII.GetBytes("250-PIPELINING\r\n"))
+	.Then(() => Encoding.ASCII.GetBytes("250 HELP\r\n"));
 
 smtpStubServer
 	.Setup(bytes => Encoding.ASCII.GetString(bytes).Equals("MAIL FROM:<jane@contoso.com>\r\n"))
