@@ -13,7 +13,7 @@ namespace StubServer.Tcp
         private bool _disposed;
         private TcpListener _tcpListener;
 
-        public TcpHandler(TcpListener tcpListener)
+        internal TcpHandler(TcpListener tcpListener)
         {
             _tcpListener = tcpListener;
             _tcpListener.Start();

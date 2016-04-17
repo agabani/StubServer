@@ -16,7 +16,7 @@ namespace StubServer.Smtp
         private TcpListener _tcpListener;
         private readonly Func<CancellationToken, Task<byte[]>> _initialResponse;
 
-        public SmtpHandler(TcpListener tcpListener, Func<CancellationToken, Task<byte[]>> initialResponse)
+        internal SmtpHandler(TcpListener tcpListener, Func<CancellationToken, Task<byte[]>> initialResponse)
         {
             _tcpListener = tcpListener;
             _initialResponse = initialResponse;
