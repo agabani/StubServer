@@ -16,7 +16,7 @@ namespace StubServer.Tests.Acceptance.Http
             var returnType = httpStubServer.GetType().GetMethod(nameof(httpStubServer.When)).ReturnType;
 
             // Assert
-            Assert.That(returnType.Name, Does.Contain(nameof(ISingleReturns<HttpResponseMessage>)));
+            Assert.That(returnType.Name, Does.Contain(nameof(ISingleReturn<HttpResponseMessage>)));
             Assert.That(returnType.GenericTypeArguments.Single().Name, Is.EqualTo(nameof(HttpResponseMessage)));
 
             // Cleanup

@@ -49,7 +49,7 @@ namespace StubServer.Smtp
             GC.SuppressFinalize(this);
         }
 
-        public IMultipleReturns<byte[]> When(Expression<Func<byte[], bool>> expression)
+        public IMultipleReturn<byte[]> When(Expression<Func<byte[], bool>> expression)
         {
             return _smtpHandler.AddSetup(expression);
         }
@@ -70,7 +70,7 @@ namespace StubServer.Smtp
     public partial class SmtpStubServer
     {
         [Obsolete(Literals.SetupIsDeprecatedPleaseUseWhenInstead)]
-        public IMultipleReturns<byte[]> Setup(Expression<Func<byte[], bool>> expression)
+        public IMultipleReturn<byte[]> Setup(Expression<Func<byte[], bool>> expression)
         {
             return When(expression);
         }

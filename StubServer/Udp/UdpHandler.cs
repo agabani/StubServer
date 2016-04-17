@@ -48,7 +48,7 @@ namespace StubServer.Udp
             }
         }
 
-        internal IMultipleReturns<byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
+        internal IMultipleReturn<byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
         {
             Setup<byte[], byte[]> setup;
             _setups.Add(setup = new Setup<byte[], byte[]>(expression));

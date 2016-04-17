@@ -20,7 +20,7 @@ namespace StubServer.Udp
             GC.SuppressFinalize(this);
         }
 
-        public IMultipleReturns<byte[]> When(Expression<Func<byte[], bool>> expression)
+        public IMultipleReturn<byte[]> When(Expression<Func<byte[], bool>> expression)
         {
             return _udpHandler.AddSetup(expression);
         }
@@ -41,7 +41,7 @@ namespace StubServer.Udp
     public partial class UdpStubServer
     {
         [Obsolete(Literals.SetupIsDeprecatedPleaseUseWhenInstead)]
-        public IMultipleReturns<byte[]> Setup(Expression<Func<byte[], bool>> expression)
+        public IMultipleReturn<byte[]> Setup(Expression<Func<byte[], bool>> expression)
         {
             return When(expression);
         }

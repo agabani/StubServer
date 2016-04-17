@@ -27,7 +27,7 @@ namespace StubServer.Http
             GC.SuppressFinalize(this);
         }
 
-        public ISingleReturns<HttpResponseMessage> When(Expression<Func<HttpRequestMessage, bool>> expression)
+        public ISingleReturn<HttpResponseMessage> When(Expression<Func<HttpRequestMessage, bool>> expression)
         {
             return _httpHandler.AddSetup(expression);
         }
@@ -55,7 +55,7 @@ namespace StubServer.Http
     public partial class HttpStubServer
     {
         [Obsolete(Literals.SetupIsDeprecatedPleaseUseWhenInstead)]
-        public ISingleReturns<HttpResponseMessage> Setup(Expression<Func<HttpRequestMessage, bool>> expression)
+        public ISingleReturn<HttpResponseMessage> Setup(Expression<Func<HttpRequestMessage, bool>> expression)
         {
             return When(expression);
         }
