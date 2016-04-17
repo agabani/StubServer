@@ -52,24 +52,26 @@ namespace StubServer.Tcp
                         return;
                     }
 
-                    foreach (var setup in _setups)
+                    foreach (var results in _setups.Select(setup => setup
+                        .Results(request, CancellationToken.None))
+                        .Where(results => results != null))
                     {
-                        var result = await setup
-                            .Result(request, CancellationToken.None)
-                            .ConfigureAwait(false);
-
-                        if (result != null)
+                        foreach (var task in results)
                         {
+                            var bytes = await task.ConfigureAwait(false);
+
                             await networkStream
-                                .WriteAsync(result, 0, result.Length)
+                                .WriteAsync(bytes, 0, bytes.Length)
                                 .ConfigureAwait(false);
                         }
+
+                        break;
                     }
                 } while (tcpClient.Connected);
             }
         }
 
-        internal ISingleReturns<byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
+        internal IMultipleReturns<byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
         {
             Setup<byte[], byte[]> setup;
             _setups.Add(setup = new Setup<byte[], byte[]>(expression));
