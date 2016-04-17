@@ -14,11 +14,10 @@ namespace StubServer.Tests.Acceptance.Smtp
 
             smtpStubServer
                 .Setup(bytes => Encoding.ASCII.GetString(bytes).StartsWith("EHLO"))
-                .Returns(() => Encoding.ASCII.GetBytes(
-                    "250-smtp2.example.com Hello bob.example.org [192.0.2.201]\r\n" +
-                    "250-SIZE 14680064\r\n" +
-                    "250-PIPELINING\r\n" +
-                    "250 HELP\r\n"));
+                .Returns(() => Encoding.ASCII.GetBytes("250-smtp2.example.com Hello bob.example.org [192.0.2.201]\r\n"))
+                .Then(() => Encoding.ASCII.GetBytes("250-SIZE 14680064\r\n"))
+                .Then(() => Encoding.ASCII.GetBytes("250-PIPELINING\r\n"))
+                .Then(() => Encoding.ASCII.GetBytes("250 HELP\r\n"));
 
             smtpStubServer
                 .Setup(bytes => Encoding.ASCII.GetString(bytes).Equals("MAIL FROM:<jane@contoso.com>\r\n"))

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,10 +10,10 @@ namespace StubServer.Smtp
 {
     internal class SmtpHandler : IDisposable
     {
+        private readonly Func<CancellationToken, Task<byte[]>> _initialResponse;
         private readonly List<Setup<byte[], byte[]>> _setups = new List<Setup<byte[], byte[]>>();
         private bool _disposed;
         private TcpListener _tcpListener;
-        private readonly Func<CancellationToken, Task<byte[]>> _initialResponse;
 
         internal SmtpHandler(TcpListener tcpListener, Func<CancellationToken, Task<byte[]>> initialResponse)
         {
@@ -69,24 +68,26 @@ namespace StubServer.Smtp
                         return;
                     }
 
-                    foreach (var setup in _setups)
+                    foreach (var results in _setups.Select(setup => setup
+                        .Results(request, CancellationToken.None))
+                        .Where(results => results != null))
                     {
-                        var result = await setup
-                            .Result(request, CancellationToken.None)
-                            .ConfigureAwait(false);
-
-                        if (result != null)
+                        foreach (var task in results)
                         {
+                            var result = await task.ConfigureAwait(false);
+
                             await networkStream
                                 .WriteAsync(result, 0, result.Length)
                                 .ConfigureAwait(false);
                         }
+
+                        break;
                     }
                 } while (tcpClient.Connected);
             }
         }
 
-        internal ISingleReturns<byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
+        internal IMultipleReturns<byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
         {
             Setup<byte[], byte[]> setup;
             _setups.Add(setup = new Setup<byte[], byte[]>(expression));
