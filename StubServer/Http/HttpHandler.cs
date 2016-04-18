@@ -29,11 +29,11 @@ namespace StubServer.Http
             return new HttpResponseMessage(HttpStatusCode.NotFound);
         }
 
-        internal ISingleReturn<HttpResponseMessage> AddSetup(Expression<Func<HttpRequestMessage, bool>> expression)
+        internal SingleReturn<HttpRequestMessage, HttpResponseMessage> AddSetup(Expression<Func<HttpRequestMessage, bool>> expression)
         {
             Setup<HttpRequestMessage, HttpResponseMessage> setup;
             _setups.Add(setup = new Setup<HttpRequestMessage, HttpResponseMessage>(expression));
-            return setup;
+            return new SingleReturn<HttpRequestMessage, HttpResponseMessage>(setup);
         }
     }
 }

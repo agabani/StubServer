@@ -40,9 +40,9 @@ namespace StubServer
         }
     }
 
-    public partial class Setup<TRequest, TResponse> : ISingleReturn<TResponse>
+    public partial class Setup<TRequest, TResponse>
     {
-        public ISingleReturn<TResponse> Return(Func<TResponse> response)
+        public Setup<TRequest, TResponse> Return(Func<TResponse> response)
         {
             _responses.Enqueue(new List<Func<CancellationToken, Task<TResponse>>>
             {
@@ -51,7 +51,7 @@ namespace StubServer
             return this;
         }
 
-        public ISingleReturn<TResponse> Return(Func<Task<TResponse>> response)
+        public Setup<TRequest, TResponse> Return(Func<Task<TResponse>> response)
         {
             _responses.Enqueue(new List<Func<CancellationToken, Task<TResponse>>>
             {
@@ -60,7 +60,7 @@ namespace StubServer
             return this;
         }
 
-        public ISingleReturn<TResponse> Return(Func<CancellationToken, Task<TResponse>> response)
+        public Setup<TRequest, TResponse> Return(Func<CancellationToken, Task<TResponse>> response)
         {
             _responses.Enqueue(new List<Func<CancellationToken, Task<TResponse>>>
             {
@@ -125,19 +125,19 @@ namespace StubServer
     public partial class Setup<TRequest, TResponse>
     {
         [Obsolete(Literals.ReturnsIsDeprecatedPleaseUseReturnInstead)]
-        public ISingleReturn<TResponse> Returns(Func<TResponse> response)
+        public Setup<TRequest, TResponse> Returns(Func<TResponse> response)
         {
             return Return(response);
         }
 
         [Obsolete(Literals.ReturnsIsDeprecatedPleaseUseReturnInstead)]
-        public ISingleReturn<TResponse> Returns(Func<Task<TResponse>> response)
+        public Setup<TRequest, TResponse> Returns(Func<Task<TResponse>> response)
         {
             return Return(response);
         }
 
         [Obsolete(Literals.ReturnsIsDeprecatedPleaseUseReturnInstead)]
-        public ISingleReturn<TResponse> Returns(Func<CancellationToken, Task<TResponse>> response)
+        public Setup<TRequest, TResponse> Returns(Func<CancellationToken, Task<TResponse>> response)
         {
             return Return(response);
         }
