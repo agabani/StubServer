@@ -20,7 +20,7 @@ namespace StubServer.Tcp
             GC.SuppressFinalize(this);
         }
 
-        public IMultipleReturn<byte[]> When(Expression<Func<byte[], bool>> expression)
+        public MultipleReturn<byte[], byte[]> When(Expression<Func<byte[], bool>> expression)
         {
             return _tcpHandler.AddSetup(expression);
         }
@@ -41,7 +41,7 @@ namespace StubServer.Tcp
     public partial class TcpStubServer
     {
         [Obsolete(Literals.SetupIsDeprecatedPleaseUseWhenInstead)]
-        public IMultipleReturn<byte[]> Setup(Expression<Func<byte[], bool>> expression)
+        public MultipleReturn<byte[], byte[]> Setup(Expression<Func<byte[], bool>> expression)
         {
             return When(expression);
         }

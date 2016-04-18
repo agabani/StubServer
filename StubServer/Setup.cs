@@ -70,25 +70,9 @@ namespace StubServer
         }
     }
 
-    public partial class Setup<TRequest, TResponse> : IMultipleReturn<TResponse>
+    public partial class Setup<TRequest, TResponse>
     {
-        IMultipleReturn<TResponse> IMultipleReturn<TResponse>.Return(Func<TResponse> response)
-        {
-            return (IMultipleReturn<TResponse>) Return(response);
-        }
-
-        IMultipleReturn<TResponse> IMultipleReturn<TResponse>.Return(Func<Task<TResponse>> response)
-        {
-            return (IMultipleReturn<TResponse>) Return(response);
-        }
-
-        IMultipleReturn<TResponse> IMultipleReturn<TResponse>.Return(
-            Func<CancellationToken, Task<TResponse>> response)
-        {
-            return (IMultipleReturn<TResponse>) Return(response);
-        }
-
-        public IMultipleReturn<TResponse> Then(Func<TResponse> response)
+        public Setup<TRequest, TResponse> Then(Func<TResponse> response)
         {
             if (!_responses.Any())
             {
@@ -99,7 +83,7 @@ namespace StubServer
             return this;
         }
 
-        public IMultipleReturn<TResponse> Then(Func<Task<TResponse>> response)
+        public Setup<TRequest, TResponse> Then(Func<Task<TResponse>> response)
         {
             if (!_responses.Any())
             {
@@ -110,7 +94,7 @@ namespace StubServer
             return this;
         }
 
-        public IMultipleReturn<TResponse> Then(Func<CancellationToken, Task<TResponse>> response)
+        public Setup<TRequest, TResponse> Then(Func<CancellationToken, Task<TResponse>> response)
         {
             if (!_responses.Any())
             {
@@ -119,46 +103,6 @@ namespace StubServer
 
             _responses.Last().Add(response);
             return this;
-        }
-    }
-
-    public partial class Setup<TRequest, TResponse>
-    {
-        [Obsolete(Literals.ReturnsIsDeprecatedPleaseUseReturnInstead)]
-        public Setup<TRequest, TResponse> Returns(Func<TResponse> response)
-        {
-            return Return(response);
-        }
-
-        [Obsolete(Literals.ReturnsIsDeprecatedPleaseUseReturnInstead)]
-        public Setup<TRequest, TResponse> Returns(Func<Task<TResponse>> response)
-        {
-            return Return(response);
-        }
-
-        [Obsolete(Literals.ReturnsIsDeprecatedPleaseUseReturnInstead)]
-        public Setup<TRequest, TResponse> Returns(Func<CancellationToken, Task<TResponse>> response)
-        {
-            return Return(response);
-        }
-
-        [Obsolete(Literals.ReturnsIsDeprecatedPleaseUseReturnInstead)]
-        IMultipleReturn<TResponse> IMultipleReturn<TResponse>.Returns(Func<TResponse> response)
-        {
-            return (IMultipleReturn<TResponse>) Return(response);
-        }
-
-        [Obsolete(Literals.ReturnsIsDeprecatedPleaseUseReturnInstead)]
-        IMultipleReturn<TResponse> IMultipleReturn<TResponse>.Returns(Func<Task<TResponse>> response)
-        {
-            return (IMultipleReturn<TResponse>) Return(response);
-        }
-
-        [Obsolete(Literals.ReturnsIsDeprecatedPleaseUseReturnInstead)]
-        IMultipleReturn<TResponse> IMultipleReturn<TResponse>.Returns(
-            Func<CancellationToken, Task<TResponse>> response)
-        {
-            return (IMultipleReturn<TResponse>) Return(response);
         }
     }
 }

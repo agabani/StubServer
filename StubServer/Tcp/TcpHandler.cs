@@ -71,11 +71,11 @@ namespace StubServer.Tcp
             }
         }
 
-        internal IMultipleReturn<byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
+        internal MultipleReturn<byte[], byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
         {
             Setup<byte[], byte[]> setup;
             _setups.Add(setup = new Setup<byte[], byte[]>(expression));
-            return setup;
+            return new MultipleReturn<byte[], byte[]>(setup);
         }
 
         public void Dispose()
