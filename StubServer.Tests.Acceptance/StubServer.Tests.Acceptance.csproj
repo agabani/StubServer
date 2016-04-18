@@ -61,6 +61,7 @@
     <Compile Include="Http\ObsoleteTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Smtp\ClashingSetupTests.cs" />
+    <Compile Include="Smtp\ContractTests.cs" />
     <Compile Include="Smtp\InvalidSetupTests.cs" />
     <Compile Include="Smtp\MultipleInitializationTests.cs" />
     <Compile Include="Smtp\ObsoleteTests.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Smtp\SmtpStubServerTests.cs" />
     <Compile Include="Tcp\ClashingSetupTests.cs" />
     <Compile Include="Tcp\ConcurrentClientsTests.cs" />
+    <Compile Include="Tcp\ContractTests.cs" />
     <Compile Include="Tcp\DelayedTests.cs" />
     <Compile Include="Tcp\ChainedReturnTests.cs" />
     <Compile Include="Tcp\InvalidSetupTests.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="Tcp\TcpStubServerTests.cs" />
     <Compile Include="Udp\ClashingSetupTests.cs" />
     <Compile Include="Udp\ConcurrentClientsTests.cs" />
+    <Compile Include="Udp\ContractTests.cs" />
     <Compile Include="Udp\DelayedTests.cs" />
     <Compile Include="Udp\ChainedReturnTests.cs" />
     <Compile Include="Udp\InvalidSetupTests.cs" />
