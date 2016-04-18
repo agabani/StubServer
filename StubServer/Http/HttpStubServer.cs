@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using System.Net.Http;
 using System.ServiceModel;
 using System.Web.Http.SelfHost;
+using StubServer.Framework;
 
 namespace StubServer.Http
 {

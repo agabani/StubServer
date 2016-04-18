@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace StubServer
+namespace StubServer.Framework
 {
     public partial class SingleReturn<TRequest, TResponse>
     {

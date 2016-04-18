@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Net.Http;
 using NUnit.Framework;
+using StubServer.Framework;
 
 namespace StubServer.Tests.Acceptance.Http
 {

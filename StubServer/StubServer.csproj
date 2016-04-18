@@ -42,10 +42,10 @@
     <Compile Include="Http\HttpStubServer.cs" />
     <Compile Include="Http\HttpHandler.cs" />
     <Compile Include="Literals.cs" />
-    <Compile Include="MultipleReturn.cs" />
+    <Compile Include="Framework\MultipleReturn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup.cs" />
-    <Compile Include="SingleReturn.cs" />
+    <Compile Include="Framework\SingleReturn.cs" />
     <Compile Include="Smtp\SmtpHandler.cs" />
     <Compile Include="Smtp\SmtpStubServer.cs" />
     <Compile Include="Tcp\TcpHandler.cs" />
