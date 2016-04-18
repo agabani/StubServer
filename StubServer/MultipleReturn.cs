@@ -9,7 +9,7 @@ namespace StubServer
     {
         private readonly Setup<TRequest, TResponse> _setup;
 
-        public MultipleReturn(Setup<TRequest, TResponse> setup)
+        internal MultipleReturn(Setup<TRequest, TResponse> setup)
         {
             _setup = setup;
         }

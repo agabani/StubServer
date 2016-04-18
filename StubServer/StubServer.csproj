@@ -40,7 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Http\HttpStubServer.cs" />
-    <Compile Include="IMultipleReturn.cs" />
     <Compile Include="Http\HttpHandler.cs" />
     <Compile Include="Literals.cs" />
     <Compile Include="MultipleReturn.cs" />

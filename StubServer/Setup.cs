@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StubServer
 {
-    public partial class Setup<TRequest, TResponse>
+    internal partial class Setup<TRequest, TResponse>
     {
         private readonly Func<TRequest, bool> _expression;
 
@@ -40,9 +40,9 @@ namespace StubServer
         }
     }
 
-    public partial class Setup<TRequest, TResponse>
+    internal partial class Setup<TRequest, TResponse>
     {
-        public Setup<TRequest, TResponse> Return(Func<TResponse> response)
+        internal Setup<TRequest, TResponse> Return(Func<TResponse> response)
         {
             _responses.Enqueue(new List<Func<CancellationToken, Task<TResponse>>>
             {
@@ -51,7 +51,7 @@ namespace StubServer
             return this;
         }
 
-        public Setup<TRequest, TResponse> Return(Func<Task<TResponse>> response)
+        internal Setup<TRequest, TResponse> Return(Func<Task<TResponse>> response)
         {
             _responses.Enqueue(new List<Func<CancellationToken, Task<TResponse>>>
             {
@@ -60,7 +60,7 @@ namespace StubServer
             return this;
         }
 
-        public Setup<TRequest, TResponse> Return(Func<CancellationToken, Task<TResponse>> response)
+        internal Setup<TRequest, TResponse> Return(Func<CancellationToken, Task<TResponse>> response)
         {
             _responses.Enqueue(new List<Func<CancellationToken, Task<TResponse>>>
             {
@@ -70,9 +70,9 @@ namespace StubServer
         }
     }
 
-    public partial class Setup<TRequest, TResponse>
+    internal partial class Setup<TRequest, TResponse>
     {
-        public Setup<TRequest, TResponse> Then(Func<TResponse> response)
+        internal Setup<TRequest, TResponse> Then(Func<TResponse> response)
         {
             if (!_responses.Any())
             {
@@ -83,7 +83,7 @@ namespace StubServer
             return this;
         }
 
-        public Setup<TRequest, TResponse> Then(Func<Task<TResponse>> response)
+        internal Setup<TRequest, TResponse> Then(Func<Task<TResponse>> response)
         {
             if (!_responses.Any())
             {
@@ -94,7 +94,7 @@ namespace StubServer
             return this;
         }
 
-        public Setup<TRequest, TResponse> Then(Func<CancellationToken, Task<TResponse>> response)
+        internal Setup<TRequest, TResponse> Then(Func<CancellationToken, Task<TResponse>> response)
         {
             if (!_responses.Any())
             {

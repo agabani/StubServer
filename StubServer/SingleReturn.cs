@@ -8,6 +8,11 @@ namespace StubServer
     {
         private readonly Setup<TRequest, TResponse> _setup;
 
+        internal SingleReturn(Setup<TRequest, TResponse> setup)
+        {
+            _setup = setup;
+        }
+
         internal Task<TResponse> Result(TRequest request, CancellationToken cancellationToken)
         {
             return _setup.Result(request, cancellationToken);
@@ -16,11 +21,6 @@ namespace StubServer
 
     public partial class SingleReturn<TRequest, TResponse>
     {
-        public SingleReturn(Setup<TRequest, TResponse> setup)
-        {
-            _setup = setup;
-        }
-
         public SingleReturn<TRequest, TResponse> Return(Func<TResponse> response)
         {
             _setup.Return(response);
