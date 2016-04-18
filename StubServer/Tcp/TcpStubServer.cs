@@ -23,7 +23,7 @@ namespace StubServer.Tcp
 
         public MultipleReturn<byte[], byte[]> When(Expression<Func<byte[], bool>> expression)
         {
-            return _tcpHandler.AddSetup(expression);
+            return new MultipleReturn<byte[], byte[]>(_tcpHandler.AddSetup(expression));
         }
 
         protected virtual void Dispose(bool disposing)

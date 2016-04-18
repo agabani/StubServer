@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using StubServer.Framework;
 
 namespace StubServer.Smtp
 {
@@ -91,11 +90,11 @@ namespace StubServer.Smtp
             }
         }
 
-        internal MultipleReturn<byte[], byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
+        internal Setup<byte[], byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
         {
             Setup<byte[], byte[]> setup;
             _setups.Add(setup = new Setup<byte[], byte[]>(expression));
-            return new MultipleReturn<byte[], byte[]>(setup);
+            return setup;
         }
 
         protected virtual void Dispose(bool disposing)

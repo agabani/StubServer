@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StubServer
 {
-    internal partial class Setup<TRequest, TResponse>
+    internal class Setup<TRequest, TResponse>
     {
         private readonly Func<TRequest, bool> _expression;
 
@@ -38,10 +38,7 @@ namespace StubServer
                     : _response.Select(func => func(cancellationToken))
                 : default(List<Task<TResponse>>);
         }
-    }
 
-    internal partial class Setup<TRequest, TResponse>
-    {
         internal Setup<TRequest, TResponse> Return(Func<TResponse> response)
         {
             _responses.Enqueue(new List<Func<CancellationToken, Task<TResponse>>>
@@ -68,10 +65,7 @@ namespace StubServer
             });
             return this;
         }
-    }
 
-    internal partial class Setup<TRequest, TResponse>
-    {
         internal Setup<TRequest, TResponse> Then(Func<TResponse> response)
         {
             if (!_responses.Any())

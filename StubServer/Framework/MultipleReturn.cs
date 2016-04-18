@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,15 +12,7 @@ namespace StubServer.Framework
         {
             _setup = setup;
         }
-
-        internal IEnumerable<Task<TResponse>> Results(TRequest request, CancellationToken cancellationToken)
-        {
-            return _setup.Results(request, cancellationToken);
-        }
-    }
-
-    public partial class MultipleReturn<TRequest, TResponse>
-    {
+ 
         public MultipleReturn<TRequest, TResponse> Return(Func<TResponse> response)
         {
             _setup.Return(response);

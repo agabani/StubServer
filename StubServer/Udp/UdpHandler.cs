@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Sockets;
 using System.Threading;
-using StubServer.Framework;
 
 namespace StubServer.Udp
 {
@@ -49,11 +48,11 @@ namespace StubServer.Udp
             }
         }
 
-        internal MultipleReturn<byte[], byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
+        internal Setup<byte[], byte[]> AddSetup(Expression<Func<byte[], bool>> expression)
         {
             Setup<byte[], byte[]> setup;
             _setups.Add(setup = new Setup<byte[], byte[]>(expression));
-            return new MultipleReturn<byte[], byte[]>(setup);
+            return setup;
         }
 
         protected virtual void Dispose(bool disposing)

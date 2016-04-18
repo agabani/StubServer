@@ -13,14 +13,6 @@ namespace StubServer.Framework
             _setup = setup;
         }
 
-        internal Task<TResponse> Result(TRequest request, CancellationToken cancellationToken)
-        {
-            return _setup.Result(request, cancellationToken);
-        }
-    }
-
-    public partial class SingleReturn<TRequest, TResponse>
-    {
         public SingleReturn<TRequest, TResponse> Return(Func<TResponse> response)
         {
             _setup.Return(response);

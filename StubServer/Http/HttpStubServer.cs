@@ -30,7 +30,7 @@ namespace StubServer.Http
 
         public SingleReturn<HttpRequestMessage, HttpResponseMessage> When(Expression<Func<HttpRequestMessage, bool>> expression)
         {
-            return _httpHandler.AddSetup(expression);
+            return new SingleReturn<HttpRequestMessage, HttpResponseMessage>(_httpHandler.AddSetup(expression));
         }
 
         protected virtual void Dispose(bool disposing)

@@ -23,7 +23,7 @@ namespace StubServer.Udp
 
         public MultipleReturn<byte[], byte[]> When(Expression<Func<byte[], bool>> expression)
         {
-            return _udpHandler.AddSetup(expression);
+            return new MultipleReturn<byte[], byte[]>(_udpHandler.AddSetup(expression));
         }
 
         protected virtual void Dispose(bool disposing)

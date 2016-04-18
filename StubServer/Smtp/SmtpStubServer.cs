@@ -52,7 +52,7 @@ namespace StubServer.Smtp
 
         public MultipleReturn<byte[], byte[]> When(Expression<Func<byte[], bool>> expression)
         {
-            return _smtpHandler.AddSetup(expression);
+            return new MultipleReturn<byte[], byte[]>(_smtpHandler.AddSetup(expression));
         }
 
         protected virtual void Dispose(bool disposing)

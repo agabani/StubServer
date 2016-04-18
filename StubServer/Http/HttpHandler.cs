@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using StubServer.Framework;
 
 namespace StubServer.Http
 {
@@ -30,11 +29,11 @@ namespace StubServer.Http
             return new HttpResponseMessage(HttpStatusCode.NotFound);
         }
 
-        internal SingleReturn<HttpRequestMessage, HttpResponseMessage> AddSetup(Expression<Func<HttpRequestMessage, bool>> expression)
+        internal Setup<HttpRequestMessage, HttpResponseMessage> AddSetup(Expression<Func<HttpRequestMessage, bool>> expression)
         {
             Setup<HttpRequestMessage, HttpResponseMessage> setup;
             _setups.Add(setup = new Setup<HttpRequestMessage, HttpResponseMessage>(expression));
-            return new SingleReturn<HttpRequestMessage, HttpResponseMessage>(setup);
+            return setup;
         }
     }
 }
