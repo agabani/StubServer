@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace StubServer.Framework
+namespace StubServer
 {
     public partial class MultipleReturn<TRequest, TResponse>
     {

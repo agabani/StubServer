@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using StubServer.Framework;
 
 namespace StubServer.Tests.Acceptance.Smtp
 {
