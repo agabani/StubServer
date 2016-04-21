@@ -6,7 +6,7 @@
 
 > Can be as simple as you want... Or as complex...
 
-[![NuGet downloads](https://img.shields.io/badge/nuget-v0.2.0.0-blue.svg)](https://www.nuget.org/packages/StubServer)
+[![NuGet downloads](https://img.shields.io/badge/nuget-v0.2.1.0-blue.svg)](https://www.nuget.org/packages/StubServer)
 
 Checkout the [Wiki](https://github.com/agabani/StubServer/wiki) for more examples!
 
