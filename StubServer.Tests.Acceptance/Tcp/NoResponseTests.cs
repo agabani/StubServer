@@ -22,7 +22,7 @@ namespace StubServer.Tests.Acceptance.Tcp
             networkStream.Write(new[] {byte.MinValue});
 
             // Act
-            TestDelegate testDelegate = () => networkStream.Read();
+            TestDelegate testDelegate = () => networkStream.Read(9);
 
             // Assert
             Assert.Throws<IOException>(testDelegate);

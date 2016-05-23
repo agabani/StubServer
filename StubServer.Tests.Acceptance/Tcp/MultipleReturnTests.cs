@@ -24,9 +24,9 @@ namespace StubServer.Tests.Acceptance.Tcp
             networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
 
             // Assert
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("John A Smith"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("John B Smith"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("John C Smith"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(12)), Is.EqualTo("John A Smith"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(12)), Is.EqualTo("John B Smith"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(12)), Is.EqualTo("John C Smith"));
 
             // Cleanup
             Cleanup(networkStream);
@@ -57,27 +57,27 @@ namespace StubServer.Tests.Acceptance.Tcp
 
             // Act & Assert
             networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("John A Smith"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("John B Smith"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("John C Smith"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(12)), Is.EqualTo("John A Smith"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(12)), Is.EqualTo("John B Smith"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(12)), Is.EqualTo("John C Smith"));
 
             // Act & Assert
             networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("James A Bond"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("James B Bond"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("James C Bond"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(12)), Is.EqualTo("James A Bond"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(12)), Is.EqualTo("James B Bond"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(12)), Is.EqualTo("James C Bond"));
 
             // Act & Assert
             networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("Bob A Marley"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("Bob B Marley"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("Bob C Marley"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(12)), Is.EqualTo("Bob A Marley"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(12)), Is.EqualTo("Bob B Marley"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(12)), Is.EqualTo("Bob C Marley"));
 
             // Act & Assert
             networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("Bob A Marley"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("Bob B Marley"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("Bob C Marley"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(12)), Is.EqualTo("Bob A Marley"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(12)), Is.EqualTo("Bob B Marley"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(12)), Is.EqualTo("Bob C Marley"));
 
             // Cleanup
             Cleanup(networkStream);

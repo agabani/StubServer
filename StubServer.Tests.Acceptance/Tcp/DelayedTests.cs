@@ -31,7 +31,7 @@ namespace StubServer.Tests.Acceptance.Tcp
             // Act
             stopwatch.Start();
             networkStream.Write(new[] {byte.MinValue});
-            var read = networkStream.Read();
+            var read = networkStream.Read(5);
             stopwatch.Stop();
 
             // Assert
@@ -64,7 +64,7 @@ namespace StubServer.Tests.Acceptance.Tcp
             networkStream.Write(new[] {byte.MinValue});
 
             // Act
-            TestDelegate testDelegate = () => networkStream.Read();
+            TestDelegate testDelegate = () => networkStream.Read(2);
 
             // Assert
             Assert.Throws<IOException>(testDelegate);

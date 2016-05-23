@@ -25,10 +25,10 @@ namespace StubServer.Tests.Acceptance.Tcp
 
             // Act & Assert
             networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("John Smith"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(10)), Is.EqualTo("John Smith"));
 
             // Act & Assert
-            TestDelegate testDelegate = () => networkStream.Read();
+            TestDelegate testDelegate = () => networkStream.Read(8192);
             Assert.Throws<IOException>(testDelegate);
 
             // Cleanup

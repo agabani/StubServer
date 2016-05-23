@@ -5,9 +5,9 @@ namespace StubServer.Tests.Acceptance.Tcp
 {
     internal static class NetworkStreamExtensions
     {
-        internal static byte[] Read(this NetworkStream networkStream)
+        internal static byte[] Read(this NetworkStream networkStream, int length)
         {
-            var buffer = new byte[8192];
+            var buffer = new byte[length];
             var bytes = networkStream.Read(buffer, 0, buffer.Length);
             return buffer.Take(bytes).ToArray();
         }

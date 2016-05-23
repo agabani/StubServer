@@ -21,7 +21,7 @@ namespace StubServer.Tests.Acceptance.Tcp
             networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
 
             // Act
-            var bytes = networkStream.Read();
+            var bytes = networkStream.Read(10);
 
             // Assert
             Assert.That(Encoding.UTF8.GetString(bytes), Is.EqualTo("John Smith"));
@@ -47,15 +47,15 @@ namespace StubServer.Tests.Acceptance.Tcp
 
             // Act & Assert
             networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("John Smith"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(10)), Is.EqualTo("John Smith"));
 
             // Act & Assert
             networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("John Smith"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(10)), Is.EqualTo("John Smith"));
 
             // Act & Assert
             networkStream.Write(Encoding.UTF8.GetBytes("Hello, World!"));
-            Assert.That(Encoding.UTF8.GetString(networkStream.Read()), Is.EqualTo("John Smith"));
+            Assert.That(Encoding.UTF8.GetString(networkStream.Read(10)), Is.EqualTo("John Smith"));
 
             // Cleanup
             Cleanup(networkStream);
