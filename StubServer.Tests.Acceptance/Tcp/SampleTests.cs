@@ -30,8 +30,8 @@ namespace StubServer.Tests.Acceptance.Tcp
             networkStream.Write(message, 0, message.Length);
 
             // Act
-            var buffer = new byte[8192];
-            var read = networkStream.Read(buffer, 0, buffer.Length);
+            var buffer = new byte[32];
+            var read = networkStream.Read(buffer, 0, 13);
 
             // Assert
             Assert.That(Encoding.UTF8.GetString(buffer, 0, read), Is.EqualTo("Hello, World!"));
@@ -62,8 +62,8 @@ namespace StubServer.Tests.Acceptance.Tcp
             networkStream.Write(message, 0, message.Length);
 
             // Act
-            var buffer = new byte[8192];
-            var read = networkStream.Read(buffer, 0, buffer.Length);
+            var buffer = new byte[32];
+            var read = networkStream.Read(buffer, 0, 13);
 
             // Assert
             Assert.That(Encoding.UTF8.GetString(buffer, 0, read), Is.EqualTo("Hello, World!"));
@@ -94,22 +94,22 @@ namespace StubServer.Tests.Acceptance.Tcp
             var message = Encoding.UTF8.GetBytes("Hi!");
 
             // Act & Assert
-            var buffer = new byte[8192];
+            var buffer = new byte[32];
 
             networkStream.Write(message, 0, message.Length);
-            var read = networkStream.Read(buffer, 0, buffer.Length);
+            var read = networkStream.Read(buffer, 0, 12);
             Assert.That(Encoding.UTF8.GetString(buffer, 0, read), Is.EqualTo("Hello, John!"));
 
             networkStream.Write(message, 0, message.Length);
-            read = networkStream.Read(buffer, 0, buffer.Length);
+            read = networkStream.Read(buffer, 0, 11);
             Assert.That(Encoding.UTF8.GetString(buffer, 0, read), Is.EqualTo("Hello, Tom!"));
 
             networkStream.Write(message, 0, message.Length);
-            read = networkStream.Read(buffer, 0, buffer.Length);
+            read = networkStream.Read(buffer, 0, 11);
             Assert.That(Encoding.UTF8.GetString(buffer, 0, read), Is.EqualTo("Hello, Ben!"));
 
             networkStream.Write(message, 0, message.Length);
-            read = networkStream.Read(buffer, 0, buffer.Length);
+            read = networkStream.Read(buffer, 0, 11);
             Assert.That(Encoding.UTF8.GetString(buffer, 0, read), Is.EqualTo("Hello, Ben!"));
             
             // Cleanup
@@ -137,19 +137,19 @@ namespace StubServer.Tests.Acceptance.Tcp
 
             var message = Encoding.UTF8.GetBytes("Hi!");
 
-            var buffer = new byte[8192];
+            var buffer = new byte[32];
 
             // Act
             networkStream.Write(message, 0, message.Length);
 
             // Assert
-            var read = networkStream.Read(buffer, 0, buffer.Length);
+            var read = networkStream.Read(buffer, 0, 12);
             Assert.That(Encoding.UTF8.GetString(buffer, 0, read), Is.EqualTo("Hello, John!"));
 
-            read = networkStream.Read(buffer, 0, buffer.Length);
+            read = networkStream.Read(buffer, 0, 11);
             Assert.That(Encoding.UTF8.GetString(buffer, 0, read), Is.EqualTo("Hello, Tom!"));
 
-            read = networkStream.Read(buffer, 0, buffer.Length);
+            read = networkStream.Read(buffer, 0, 11);
             Assert.That(Encoding.UTF8.GetString(buffer, 0, read), Is.EqualTo("Hello, Ben!"));
 
             // Cleanup
@@ -182,8 +182,8 @@ namespace StubServer.Tests.Acceptance.Tcp
             networkStream.Write(message, 0, message.Length);
 
             // Act
-            var buffer = new byte[8192];
-            var read = networkStream.Read(buffer, 0, buffer.Length);
+            var buffer = new byte[32];
+            var read = networkStream.Read(buffer, 0, 13);
 
             // Assert
             Assert.That(Encoding.UTF8.GetString(buffer, 0, read), Is.EqualTo("Hello, World!"));
@@ -214,7 +214,7 @@ namespace StubServer.Tests.Acceptance.Tcp
             networkStream.Write(message, 0, message.Length);
 
             // Act
-            var buffer = new byte[8192];
+            var buffer = new byte[32];
             TestDelegate testDelegate = () => networkStream.Read(buffer, 0, buffer.Length);
 
             // Assert
@@ -251,7 +251,7 @@ namespace StubServer.Tests.Acceptance.Tcp
             networkStream.Write(message, 0, message.Length);
 
             // Act
-            var buffer = new byte[8192];
+            var buffer = new byte[32];
             TestDelegate testDelegate = () => networkStream.Read(buffer, 0, buffer.Length);
 
             // Assert
