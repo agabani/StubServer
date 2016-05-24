@@ -10,7 +10,7 @@
 
 Checkout the [Wiki](https://github.com/agabani/StubServer/wiki) for more examples!
 
-## Build Status
+### Build Status
 |            | Status |
 |------------|--------|
 | **master** | [![Build status](https://ci.appveyor.com/api/projects/status/osg14uk49fvt5iw1/branch/master?svg=true)](https://ci.appveyor.com/project/AhmedAgabani/stubserver/branch/master) |
