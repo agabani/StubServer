@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using NUnit.Framework.Compatibility;
 
 namespace StubServer.Tests.Acceptance.Tcp
 {
