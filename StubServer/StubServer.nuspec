@@ -2,15 +2,18 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>0.2.1.0</version>
+    <version>0.2.1.1</version>
     <title>$title$</title>
     <authors>agabani</authors>
     <owners>agabani</owners>
     <projectUrl>https://github.com/agabani/StubServer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Quickly stub out 3rd party servers to be used against your automated development test cycle. Designed to feel familiar to use, without having restrictions forced upon you.</description>
-    <releaseNotes>Reduced contracts.</releaseNotes>
-    <copyright>Copyright 2016</copyright>
+    <releaseNotes>Fixed dependencies.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
     <tags>Stub Server HTTP TCP UDP SMTP Testing</tags>
+	<dependencies>
+      <dependency id="Microsoft.AspNet.WebApi.SelfHost" version="5.2.3" />
+    </dependencies>
   </metadata>
 </package>
